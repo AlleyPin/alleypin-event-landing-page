@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{FONTS}}
+<style>
+/*{{SHARED}}*/
+/* KV 設計稿模擬（tools/kv_drafts.py 用）：960 內容欄置中，跟 Instapage 桌機一致；手機 ≤767 */
+html,body{ margin:0; }
+body{ background:var(--ap-mist); }
+.stage{ position:relative; width:60rem; margin:0 auto; }
+.ap-kv{ height:40rem; }
+.kv-illus{ position:absolute; z-index:1; top:7rem; left:29rem; width:35rem; height:26rem; object-fit:contain; }
+@media (max-width:767px){
+  .stage{ width:25rem; }
+  .ap-kv{ height:auto; padding-bottom:3rem; }
+  .kv-illus{ top:4rem; left:.75rem; width:23.5rem; height:15rem; }
+  .ap-kv__title{ margin-top:17rem; }
+}
+</style></head>
+<body><div class="stage">
+<div class="ap ap-kv">
+  <div class="ap-bleed ap-kv__bg" aria-hidden="true"></div>
+  <img class="kv-illus" src="{{ILLUS}}" alt="">
+  <div class="ap-kv__content">
+{{include:_brand.html}}
+    <h1 class="ap-kv__title">〔待填：主標上半〕，<br>〔待填：主標下半〕</h1>
+    <p class="ap-kv__lead">〔待填：副標一句〕</p>
+{{include:_when.html}}
+    <div class="ap-kv__cta"><a class="ap-btn" href="#">〔待填：立即免費報名〕</a></div>
+  </div>
+</div>
+</div></body></html>

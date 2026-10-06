@@ -1,0 +1,42 @@
+IMPORTANT: pure image-generation task. Do not read any files or notes; use only the attached reference images and this text.
+
+Use your built-in image generation tool to create ONE image and save it as ./kv-r8-1.png (keep original resolution, do not resize, do not open Finder).
+
+Use case: illustration-story
+Asset type: landing page hero (KV) illustration, placed to the right of a headline
+Input images:
+- Image 1: EXACT geometric background layout — reproduce these shapes exactly: same positions, sizes, colors and layering. Its white background is NOT part of the output.
+- Image 2: Shandou turnaround model sheet — identity reference, match exactly
+- Image 3: Yiji turnaround model sheet — identity reference, match exactly
+- Image 4: height lineup of all characters at the same scale — use ONLY for relative heights
+- Image 5: group scenes — use ONLY for Shandou's white doctor's coat (thin blue-gray coat outlines, light-blue shirt and tie)
+Composition: landscape 3:2 (1536x1024), FULLY TRANSPARENT background, only the artwork. Keep the layout of Image 1.
+
+GEOMETRY RULES (most important — earlier attempts failed exactly here):
+1. Every background shape is a mathematically perfect primitive, as if built with vector ellipse and rectangle tools, never drawn freehand. Copy the shapes from Image 1 as if traced.
+2. CIRCLES must be perfect circles: equal width and height, constant curvature, no flattening, no bulges, no wobble.
+3. PILLARS (rounded rectangles) have their corner radius pushed to the MAXIMUM: corner radius = exactly half of the shape's width, so the top is ONE perfect semicircle tangent to both straight sides. No flat top, no squared shoulders, no partially rounded corners, no egg, bullet or arch-window shape. Straight sides are perfectly vertical.
+4. The light-mint area is exactly the overlap of the big blue pillar and the dark-green circle; its edges are the circle's arc and the pillar's straight side.
+5. Leaves are symmetric lenses made of two circular arcs. Badges are perfect circles.
+6. Geometry is flat solid fill only: no outlines on geometry, no gradients, no textures, no shadows.
+
+WHITE PATH — LINE ENDS (an earlier attempt was rejected exactly here):
+7. Every line must start and end ON something. A line end may never stop in empty space or float in the middle of a shape.
+8. The white path's LEFT end starts hidden behind the chat-bubble badge.
+9. The white path's RIGHT end: after passing through the check-mark badge, the path curves down to the right and goes BEHIND the medium-blue pillar at the lower right (the one whose rounded top is just right of the check badge, near the bottom of the dark-green circle). That pillar is in FRONT of the path, so the pillar's rounded top edge cuts the path off cleanly — exactly as in Image 1. The visible end of the path lies exactly on that pillar's curved edge: no gap between the path and the edge, no rounded tip, and the path never continues on top of the pillar.
+10. The same rule applies to the characters: a character's body may only be cut off by a shape that is in front of it, never by a hard edge floating in the middle of a background shape.
+
+CHARACTERS AND PROPS:
+- Shandou as a doctor in the white doctor's coat of Image 5: waist-up, standing inside the big blue pillar and centered on it horizontally, top of the head about 110 px below the top of the pillar. His body continues downward and his lower body goes BEHIND the two front pillars directly below him (the dark-green pillar on the left and the pale-blue pillar on the right, both in front of him): wherever his body stops, its edge is covered by one of those two pillars. Never end his coat with a straight or wavy cut floating in the middle of the big blue pillar. One arm is raised toward the right, toward Yiji, as if handing over care. Calm deadpan face, no mouth.
+- Yiji: waist-up inside the dark-green circle, a little left of the circle center, facing left toward Shandou, holding a smartphone in one flipper; the phone screen shows two simple mint chat bubbles and a small heart, no text. His lower body is hidden behind the white path and the lower edge of the circle.
+- Relative heights (critical): Shandou 100%, Yiji about 78%. Both heads at roughly the same height on the canvas because Yiji stands slightly higher.
+- On the right side of the circle, overlapping the circle's right edge: a perfectly round white plate holding nutrition foods drawn in the same mascot style — a broccoli floret, a salmon fillet, half a boiled egg, a few carrot slices, a small mound of grains — flat fills with near-black outlines.
+- Layering of the white path and the two badges (chat bubble, check mark) from Image 1: in front of the characters' lower bodies and the dark-green circle, but BEHIND the medium-blue pillar at the lower right (see rule 9).
+
+Style: AlleyPin "PinFriends" mascot style. Flat 2D vector-like cartoon, clean near-black outlines (#171918), medium-thin and consistent line weight with rounded ends (only the tiny red ball Shizi uses a bolder line), flat solid color fills, no gradients, no textures, no 3D shading, no drop shadows. Chunky simple silhouettes, stubby limbs, mostly no neck. Tiny minimal facial features placed high on the face (dot or short-dash eyes) for a calm, deadpan, cute look. Expressions only through small flat marks: pink blush ovals, light-blue sweat drops, yellow sparkles, red "!!", question marks, music notes. Soft, muted palette overall; Yiji's black-and-white and Shizi's red are the bolder accents.
+
+SHANDOU (山豆) — a pale blue-gray bear. Head and body form ONE continuous tall rounded dome with no neck, narrow at the top and widening toward the hips like a gourd or bell; body width about 0.55x its height. Body fill #D2E2E3. Two small half-circle ears in solid teal #57ABBE at the top corners, no inner-ear color. Face sits high (roughly 15%-30% down from the top of the head): two tiny short vertical-dash eyes, a white oval muzzle with a small teal bean-shaped nose on top of it. NO visible mouth in neutral or happy expressions; the short shallow curved line below the muzzle is the CHIN line, not a mouth, so never turn it into a smile or draw a mouth on or inside the muzzle. Happiness is shown only with the eyes and pink blush. Only for surprise, a small open mouth (dark inside with a tongue) hangs from the bottom edge of the muzzle, between the muzzle and the chin line. Signature mark on the chest: a flat pure-white "M" / double-peak chevron (two small peaks with a notch between them, the two wings sloping down and outward), no gradient, no transparency. Long soft arms hang along the sides to about two-thirds down the body. Short stubby legs (bottom fifth of the height) with rounded feet. A small round teal tail on the back. Calm, deadpan expression.
+
+YIJI (伊吉) — a black-and-white penguin wearing headphones. Pear-shaped body, widest near the bottom; black head and back (#171918). A white heart-shaped face patch (two rounded lobes at the top with a small notch in the middle) that continues down into a white belly. Two round black dot eyes. A SMALL rounded mustard-yellow beak (#DBD06D) with an orange outline (#DC853D) and a tiny smile line inside. Deep navy headphones (#345293, not bright royal blue): a thin headband over the top of the head and round navy ear cups with orange ear pads (#DC853D) on both sides, the cups sticking out past the head outline. Long black flippers hanging at the sides. Small mustard-yellow feet with orange outlines.
+
+Constraints: match the reference sheets exactly in silhouette, proportions, colors and line weight; flat fills only; no text, letters, numbers or logos; no pills, capsules, supplement boxes, bottles, medical crosses or syringes; no extra characters; no room, floor or scenery.

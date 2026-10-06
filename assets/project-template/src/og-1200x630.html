@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<!-- OG 圖＝KV 縮排版（票上「KV resize 即可」）。字型要跟 site.json 的 fonts 一致 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/*{{SHARED}}*/
+@page{ size:1200px 630px; margin:0; }
+html,body{ margin:0; width:1200px; height:630px; overflow:hidden; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.img{ position:relative; width:1200px; height:630px; overflow:hidden; font-size:16px; }
+.img .ap-kv__bg{ position:absolute; inset:0; left:0; width:100%; }
+.img .ap-kv__illus{ left:630px; top:150px; width:550px; animation:none; }
+.img .content{ position:absolute; z-index:2; left:72px; top:64px; width:620px; }
+.img .ap-brand img{ height:40px; }
+.img .ap-brand__x{ font-size:24px; }
+.img .ap-kv__title{ margin-top:64px; font-size:48px; line-height:1.36; text-wrap:nowrap; }
+.img .ap-kv__lead{ margin-top:18px; font-size:21px; white-space:nowrap; }
+.img .ap-when{ margin-top:30px; padding:18px 24px; border-radius:20px; }
+.img .ap-when__date, .img .ap-when__time{ font-size:21px; }
+.img .ap-when__place{ font-size:19px; }
+.img .ap-when__row svg{ width:22px; height:22px; }
+</style></head>
+<body>
+<div class="ap img">
+  <div class="ap-kv__bg"></div>
+{{include:_kv-art.html}}
+  <div class="content">
+{{include:_brand.html}}
+    <h1 class="ap-kv__title">〔待填：主標上半〕，<br>〔待填：主標下半〕</h1>
+    <p class="ap-kv__lead">〔待填：副標一句〕</p>
+{{include:_when.html}}
+  </div>
+</div>
+</body></html>

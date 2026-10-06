@@ -1,0 +1,68 @@
+<!-- 這份＝這次表單的規格（上稿指南的欄位表、check_live.py 的比對都從這裡讀），也用在本機預覽。
+     DOM 結構照 Instapage 原生表單（拆自 events.alleypin.com/nova-webinar），欄位文字照 Notion 票。
+     第 1–7 欄是 AlleyPin 活動頁的標準欄位；科別選項每檔要跟 Hsing 確認（Cofit 案確認的是下面 10 項；2026-10-06 線上 nova 是另一組 9 項）。
+     第 8 欄每檔不同；送出按鈕文字寫在 button 裡。 -->
+<form novalidate class="form email-form contents form-labels-outside-top" method="post" data-id="element-form" data-at="form" onsubmit="return false">
+  <label class="form-label-title form-label-outside form-label " for="f0" data-at="form-text-title">姓名</label>
+  <input id="f0" class="form-input form-input-text required placeholder-style" data-at="form-text" type="text" name="姓名" value="" title="姓名" placeholder="" required aria-required="true" />
+  <label class="form-label-title form-label-outside form-label " for="f1" data-at="form-email-title">Email</label>
+  <input id="f1" class="form-input form-input-text required placeholder-style" type="email" name="Email" value="" title="Email" data-at="form-email" placeholder="" required aria-required="true" />
+  <label class="form-label-title form-label-outside form-label " for="f2" data-at="form-text-title">手機號碼 / 聯絡電話</label>
+  <input id="f2" class="form-input form-input-text required placeholder-style" data-at="form-text" type="text" name="手機號碼 / 聯絡電話" value="" title="手機號碼 / 聯絡電話" placeholder="" required aria-required="true" />
+  <label class="form-label-title form-label-outside form-label " for="f3" data-at="form-select-title">你的職稱</label>
+  <div class="form-block-select">
+    <select autocomplete="off" id="f3" class="form-input form-select required " data-at="form-select" name="你的職稱" title="你的職稱" required aria-required="true">
+      <option class="hidden" value="" disabled="" selected="">-- Select one --</option>
+      <option class="form-select-option" value="醫師個人">醫師個人</option>
+      <option class="form-select-option" value="醫療院所負責人">醫療院所負責人</option>
+      <option class="form-select-option" value="診所護理 / 營運人員">診所護理 / 營運人員</option>
+      <option class="form-select-option" value="診所行銷人員">診所行銷人員</option>
+      <option class="form-select-option" value="醫療相關從業人員">醫療相關從業人員</option>
+      <option class="form-select-option" value="其他產業從業人員">其他產業從業人員</option>
+    </select>
+  </div>
+  <label class="form-label-title form-label-outside form-label " for="f4" data-at="form-text-title">診所 / 機構名稱</label>
+  <input id="f4" class="form-input form-input-text required placeholder-style" data-at="form-text" type="text" name="診所 / 機構名稱" value="" title="診所 / 機構名稱" placeholder="" required aria-required="true" />
+  <label class="form-label-title form-label-outside form-label " for="f5" data-at="form-select-title">診所 / 機構所在縣市</label>
+  <div class="form-block-select">
+    <select autocomplete="off" id="f5" class="form-input form-select required " data-at="form-select" name="診所 / 機構所在縣市" title="診所 / 機構所在縣市" required aria-required="true">
+      <option class="hidden" value="" disabled="" selected="">-- Select one --</option>
+      <option class="form-select-option" value="北北基、桃竹">北北基、桃竹</option>
+      <option class="form-select-option" value="中彰投、苗栗">中彰投、苗栗</option>
+      <option class="form-select-option" value="雲嘉南">雲嘉南</option>
+      <option class="form-select-option" value="高屏地區">高屏地區</option>
+      <option class="form-select-option" value="宜蘭、花蓮">宜蘭、花蓮</option>
+      <option class="form-select-option" value="台東">台東</option>
+      <option class="form-select-option" value="外島地區">外島地區</option>
+    </select>
+  </div>
+  <label class="form-label-title form-label-outside form-label " for="f6" data-at="form-select-title">診所 / 機構所屬科別</label>
+  <div class="form-block-select">
+    <select autocomplete="off" id="f6" class="form-input form-select required " data-at="form-select" name="診所 / 機構所屬科別" title="診所 / 機構所屬科別" required aria-required="true">
+      <option class="hidden" value="" disabled="" selected="">-- Select one --</option>
+      <option class="form-select-option" value="牙醫診所">牙醫診所</option>
+      <option class="form-select-option" value="醫美診所">醫美診所</option>
+      <option class="form-select-option" value="中醫診所">中醫診所</option>
+      <option class="form-select-option" value="西醫診所">西醫診所</option>
+      <option class="form-select-option" value="其他科別診所">其他科別診所</option>
+      <option class="form-select-option" value="物理治療所">物理治療所</option>
+      <option class="form-select-option" value="心理諮商所">心理諮商所</option>
+      <option class="form-select-option" value="職能治療所">職能治療所</option>
+      <option class="form-select-option" value="推拿整復 / 國術館">推拿整復 / 國術館</option>
+      <option class="form-select-option" value="其他產業">其他產業</option>
+    </select>
+  </div>
+  <label class="form-label-title form-label-outside form-label " for="f7" data-at="form-text-title">〔待填：( 選填 ) 第 8 欄題目〕</label>
+  <input id="f7" class="form-input form-input-text placeholder-style" data-at="form-text" type="text" name="〔待填：( 選填 ) 第 8 欄題目〕" value="" title="〔待填：( 選填 ) 第 8 欄題目〕" placeholder="" />
+  <div class="form-checkable-field">
+    <label tabindex="0" class="form-label-title form-label form-label-checkbox " for="f8" data-at="form-checkbox-title">請再次確認您所填寫的資訊是否皆正確，我們將於活動開始前 7 個工作天安排發送報名成功通知信。</label>
+    <div class="form-block-checkbox">
+      <input id="hf8" class="hidden-checkbox" type="hidden" name="confirm::INSTAPAGE_BOX::已確認以上資訊皆正確。" value="no"/>
+      <input id="f8" class="form-multiple-input required" data-at="form-checkbox" type="checkbox" data-field-type="checkbox" name="confirm" value="已確認以上資訊皆正確。" required aria-required="false" />
+      <label class="form-multiple-label form-checkbox-label form-label" for="f8" data-at="form-checkbox-label">已確認以上資訊皆正確。</label>
+    </div>
+  </div>
+  <div class="form-btn-container item-absolute form-btn-geometry">
+    <button class="btn form-btn item-block " data-at="form-button" aria-label="Submit the form">提交資料</button>
+  </div>
+</form>

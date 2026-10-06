@@ -1,0 +1,256 @@
+/* ==========================================================
+   AlleyPin 活動頁｜設計層（每一檔活動重訂）
+   - 色票、字型、各段版型都在這裡。預設值是 AlleyPin 品牌色（alleypin-slide-design 色盤）；
+     合作案（例如 Cofit）照這次的設計方向改 :root 的 token，不要在元件裡寫死顏色。
+   - 元件是 Cofit 案（events.alleypin.com/cofit，2026-10 上線）實測過的寫法，class 改成通用名稱。
+     用不到的元件整段刪掉，Head 會小一點。
+   - 每條「為什麼」註解都是 Hsing 抓過的問題，改寫時保留。
+   - 手機覆寫集中在檔尾的 @media (max-width:767px)。新增元件時，它的手機樣式也寫進檔尾那一段（或寫在檔尾之後），
+     寫在前面會被檔尾同權重的規則蓋掉。
+   ========================================================== */
+
+:root{
+  /* 字型：同步改 src/site.json 的 fonts（Google Fonts 要載入哪些字族與字重） */
+  --ap-font-display:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --ap-font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+
+  --ap-ink:#1D4A82;         /* 主色：標題、深色段底（AlleyPin 主要藍） */
+  --ap-ink-deep:#14203C;    /* 最深：頁尾底、按鈕字 */
+  --ap-text:#14203C;        /* 內文 */
+  --ap-muted:#67727E;       /* 次要文字 */
+  --ap-accent:#1D4A82;      /* 編號、圖示線條。淺色不要拿來當小字（淺色小字壓淺底會糊） */
+  --ap-accent-soft:#E3EDFD; /* 卡片價值條、圖示底 */
+  --ap-mist:#EDEEF3;        /* 淺底段落 */
+  --ap-line:#D7DCE4;        /* 卡片框線 */
+  --ap-on-dark:#FFFFFF;     /* 深色段上的標題 */
+  --ap-on-dark-soft:#C9D6EA;/* 深色段上的內文 */
+  --ap-on-dark-accent:#7DAEF9;
+
+  /* CTA 色只給報名按鈕（2026-10-06：時間做成橘色膠囊，看起來像第二顆按鈕，被 Hsing 退件） */
+  --ap-cta:#F19D48;
+  --ap-cta-hover:#E88A2E;
+  --ap-cta-text:#14203C;
+  --ap-cta-shadow:rgba(214,120,30,.5);
+
+  /* 原生表單 */
+  --ap-form-title:"免費報名";
+  --ap-form-shadow:rgba(20,32,60,.28);
+  --ap-field:#F7F8FB;
+  --ap-field-line:#CDD4E0;
+  --ap-field-line-hover:#A5B1C4;
+  --ap-focus:#1D4A82;
+  --ap-focus-ring:rgba(29,74,130,.2);
+  --ap-select-arrow:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 7.5l5 5 5-5' fill='none' stroke='%231D4A82' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+  --ap-col-half:30rem;      /* 桌機內容欄 960px 的一半（.ap-bleed 用） */
+}
+@media (max-width:767px){ :root{ --ap-col-half:12.5rem; } } /* 手機內容欄 400px 的一半 */
+
+/* ---------- 按鈕 ---------- */
+.ap .ap-btn{ display:inline-flex; align-items:center; justify-content:center; height:3.5rem; padding:0 2.5rem; border-radius:999px; background:var(--ap-cta); color:var(--ap-cta-text); font-weight:700; font-size:1.125rem; letter-spacing:.06em; text-decoration:none; box-shadow:0 .75rem 1.5rem -.75rem var(--ap-cta-shadow); transition:background-color .2s ease, transform .2s ease; }
+.ap .ap-btn:hover{ background:var(--ap-cta-hover); text-decoration:none; transform:translateY(-1px); }
+.ap .ap-btn:focus-visible{ outline:3px solid var(--ap-ink); outline-offset:3px; }
+
+/* ==========================================================
+   KV（左字右圖；插圖絕對定位在右側）
+   ========================================================== */
+.ap-kv__bg{ background:linear-gradient(100deg,#F8F9FC 0%,var(--ap-mist) 55%,#E6EAF3 100%); }
+/* aspect-ratio 要跟插圖原始比例一致（換圖就改） */
+.ap-kv__illus{ position:absolute; z-index:1; display:block; top:9.9rem; left:30rem; width:34rem; height:auto; aspect-ratio:1000 / 629;
+  animation:ap-rise .9s cubic-bezier(.2,.7,.2,1) .15s both; }
+.ap-kv__content{ position:relative; z-index:2; padding-top:3rem; width:31rem; }
+
+.ap-brand{ display:flex; align-items:center; gap:.875rem; }
+.ap-brand img{ height:2rem; width:auto; }
+.ap-brand__x{ font-family:var(--ap-font-display); font-size:1.25rem; line-height:1; color:var(--ap-muted); }
+
+.ap-kv__title{ margin-top:4.5rem; font-family:var(--ap-font-display); font-weight:700; font-size:2.625rem; line-height:1.36; letter-spacing:.02em; color:var(--ap-ink); }
+.ap-kv__lead{ margin-top:1.125rem; font-size:1.125rem; line-height:1.7; color:var(--ap-text); }
+
+/* 活動時間：日期、時間、地點各一行配圖示。時間不要做成彩色膠囊——會跟報名按鈕撞造型 */
+.ap-when{ margin-top:2rem; display:inline-grid; gap:.625rem; padding:1.125rem 1.5rem; background:rgba(255,255,255,.85); border:1px solid var(--ap-line); border-radius:1.25rem; }
+.ap-when__row{ display:flex; flex-wrap:wrap; align-items:center; gap:.375rem .625rem; }
+.ap-when__row svg{ width:1.25rem; height:1.25rem; flex:none; color:var(--ap-accent); }
+.ap-when__date, .ap-when__time{ white-space:nowrap; font-family:var(--ap-font-display); font-weight:700; font-size:1.125rem; color:var(--ap-ink); letter-spacing:.02em; }
+.ap-when__place{ font-size:1rem; font-weight:400; color:var(--ap-text); }
+.ap-kv__cta{ margin-top:2rem; }
+
+@media (max-width:767px){
+  .ap-kv__illus{ top:4rem; left:.75rem; width:23.5rem; }
+  .ap-kv__content{ width:100%; padding:1.5rem 1.5rem 0; }
+  .ap-brand img{ height:1.625rem; }
+  .ap-brand__x{ font-size:1rem; }
+  /* 標題要排在插圖下方：margin-top ≈ 插圖 top＋插圖高度＋間距，換圖比例要重算 */
+  .ap-kv__title{ margin-top:16.75rem; font-size:1.875rem; line-height:1.4; }
+  .ap-kv__lead{ margin-top:.75rem; font-size:1rem; }
+  .ap-when{ display:grid; margin-top:1.5rem; padding:1rem 1.125rem; }
+  .ap-when__date, .ap-when__time{ font-size:1rem; }
+  .ap-when__place{ font-size:.9375rem; }
+  .ap-kv__cta{ margin-top:1.5rem; }
+  .ap .ap-btn{ display:flex; width:100%; }
+}
+
+/* ==========================================================
+   段落共用
+   ========================================================== */
+.ap-sec{ padding-top:6rem; }
+.ap-h2{ font-family:var(--ap-font-display); font-weight:700; font-size:2rem; line-height:1.35; letter-spacing:.02em; color:var(--ap-ink); }
+.ap-h2--light{ color:var(--ap-on-dark); }
+.ap-intro{ margin-top:1rem; max-width:42rem; font-size:1.0625rem; line-height:1.85; color:var(--ap-text); }
+/* 置中段（標題＋引言＋CTA 置中）：引言要依語意分兩行時用 <br class="ap-br-desk">（只在桌機生效） */
+.ap-sec--center .ap-h2, .ap-sec--center .ap-intro, .ap-sec--center .ap-sec__cta{ text-align:center; }
+.ap-sec--center .ap-intro{ margin-left:auto; margin-right:auto; }
+/* 編號獨立一行（<span class="ap-no">01</span> 放在標題裡最前面）：標題折行時每一行、內文都從同一條左緣開始。
+   寫成「01｜標題」同一行的話，折到第二行的字會對不齊 */
+.ap-no{ display:block; margin:0 0 .25rem; font-family:var(--ap-font-display); font-weight:700; font-size:.875rem; line-height:1.4; letter-spacing:.08em; color:var(--ap-accent); }
+.ap-sec__cta{ margin-top:3rem; }
+.ap-bg--mist{ background:var(--ap-mist); }
+.ap-bg--ink{ background:var(--ap-ink); overflow:hidden; }
+
+/* ---------- 問題卡（圖示＋標題＋說明＋底部價值條；兩欄） ---------- */
+.ap-cards{ margin-top:3rem; display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.ap-card{ display:flex; flex-direction:column; background:#FFFFFF; border:1px solid var(--ap-line); border-radius:1.5rem; overflow:hidden; }
+.ap-card__body{ position:relative; flex:1; padding:1.75rem 1.75rem 1.5rem 5.25rem; }
+.ap-card__icon{ position:absolute; left:1.5rem; top:1.5rem; display:grid; place-items:center; width:2.75rem; height:2.75rem; border-radius:50%; background:var(--ap-mist); color:var(--ap-ink); }
+.ap-card__icon svg{ width:1.75rem; height:1.75rem; }
+.ap-card__title{ font-size:1.125rem; font-weight:700; line-height:1.55; color:var(--ap-ink); }
+.ap-card__text{ margin-top:.5rem; font-size:.9375rem; line-height:1.8; color:var(--ap-text); }
+.ap-card__value{ display:flex; align-items:center; gap:.5rem; padding:1rem 1.75rem 1rem 5.25rem; background:var(--ap-accent-soft); font-size:1rem; font-weight:700; line-height:1.5; color:var(--ap-ink); }
+.ap-card__value svg{ flex:none; width:1.25rem; height:1.25rem; color:var(--ap-accent); }
+
+/* ---------- 重點列表（三欄，標題＋說明） ---------- */
+.ap-points{ margin-top:3.5rem; padding-top:2.25rem; border-top:1px solid var(--ap-line); display:grid; grid-template-columns:repeat(3,1fr); gap:2.25rem; }
+/* 並排項目的同一部位對齊同一條線：每項佔 2 列並共用外層的列（subgrid），標題折幾行說明都對齊（2026-10-06 Hsing 指出） */
+.ap-points > li{ display:grid; grid-row:span 2; grid-template-rows:subgrid; row-gap:0; }
+.ap-points__title{ font-size:1.125rem; font-weight:700; line-height:1.55; color:var(--ap-ink); }
+.ap-points p{ margin-top:.5rem; font-size:.9375rem; line-height:1.8; color:var(--ap-text); }
+
+/* ---------- 插圖卡（插圖＋標題＋說明；三欄） ---------- */
+.ap-fits{ margin-top:3rem; display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+/* 每張卡佔 3 列（圖／標題／說明）並共用外層的列（subgrid）：標題折幾行都不會讓說明高低不一 */
+.ap-fit{ display:grid; grid-row:span 3; grid-template-rows:subgrid; row-gap:0; }
+.ap-fit__art{ position:relative; aspect-ratio:3 / 2; border-radius:1.5rem; background:var(--ap-mist); overflow:hidden; }
+/* 場景圖先用 tools/scene_crop.py 裁到「桌子底緣＝圖片底緣」，再用同一個寬度比例（框寬 92%）貼齊框底：
+   不裁的話每張底下留白不一，看起來浮在空中；寬度比例不一致，同一組角色會一大一小 */
+.ap-fit__art img{ position:absolute; left:4%; bottom:0; display:block; width:92%; height:auto; }
+.ap-fit__title{ margin-top:1.375rem; font-size:1.125rem; font-weight:700; line-height:1.55; color:var(--ap-ink); }
+.ap-fit p{ margin-top:.5rem; font-size:.9375rem; line-height:1.8; color:var(--ap-text); }
+
+/* ---------- 左文右圖（例：合作概念＋診間到日常） ---------- */
+.ap-split{ display:grid; grid-template-columns:23rem 1fr; gap:3rem; align-items:center; }
+
+/* ---------- 兩個場景＋弧線（例：診間 → 日常） ---------- */
+.ap-journey{ --ap-scene-h:9.85rem; position:relative; display:grid; grid-template-columns:1fr 4.5rem 1fr; align-items:start; } /* 場景框高 = 欄寬 × 2/3 */
+.ap-scene__art{ position:relative; height:var(--ap-scene-h); border-radius:1.5rem; overflow:hidden; background:#FFFFFF; border:1px solid var(--ap-line); }
+.ap-scene__art img{ position:absolute; left:4%; bottom:0; display:block; width:92%; height:auto; } /* 同 .ap-fit__art img */
+.ap-scene figcaption{ margin-top:.875rem; font-size:.9375rem; line-height:1.6; color:var(--ap-text); }
+.ap-scene figcaption b{ display:block; font-family:var(--ap-font-display); font-size:1.125rem; font-weight:700; color:var(--ap-ink); }
+/* 弧線與兩端圓點用百分比座標（桌機手機共用）；換圖要重量起點、終點（Cofit：山豆指尖 38.1%/64.4% → 手機上緣 68.8%/44.3%） */
+.ap-journey__arc{ position:absolute; z-index:2; left:0; top:0; width:100%; height:var(--ap-scene-h); overflow:visible; pointer-events:none; }
+.ap-journey__dot{ position:absolute; z-index:3; width:.875rem; height:.875rem; margin:-.4375rem 0 0 -.4375rem; border-radius:50%; border:3px solid #FFFFFF; }
+
+/* ---------- 議程（深色段） ---------- */
+.ap-agenda{ margin-top:2.5rem; border-bottom:1px solid rgba(255,255,255,.16); }
+.ap-slot{ display:grid; grid-template-columns:10rem 1fr; gap:2rem; padding:1.75rem 0; border-top:1px solid rgba(255,255,255,.16); }
+.ap-slot__time{ font-family:var(--ap-font-display); font-weight:700; font-size:1.25rem; line-height:1.5; letter-spacing:.02em; color:var(--ap-on-dark-accent); }
+.ap-slot__title{ font-size:1.25rem; font-weight:700; line-height:1.5; color:var(--ap-on-dark); }
+.ap-slot__who{ margin-top:.375rem; font-size:.9375rem; font-weight:400; color:var(--ap-on-dark-accent); }
+.ap-slot__text{ margin-top:.5rem; max-width:46rem; font-size:.9375rem; line-height:1.8; color:var(--ap-on-dark-soft); }
+.ap-bg--ink ~ .ap-layer .ap-btn:focus-visible{ outline-color:#FFFFFF; }
+
+/* ---------- 講者 ---------- */
+.ap-speakers{ margin-top:2.5rem; display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.ap-speaker{ display:grid; grid-template-columns:7.5rem 1fr; gap:1.5rem; align-items:start; padding:2rem; background:#FFFFFF; border:1px solid var(--ap-line); border-radius:1.5rem; }
+.ap-speaker__photo{ display:grid; place-items:center; width:7.5rem; height:7.5rem; border-radius:50% 50% 50% 1rem; object-fit:cover; background:linear-gradient(135deg,#5A86C2,var(--ap-ink)); font-size:.8125rem; color:rgba(255,255,255,.92); }
+.ap-speaker__role{ font-size:.875rem; font-weight:400; line-height:1.6; color:var(--ap-muted); }
+.ap-speaker__name{ margin-top:.25rem; font-family:var(--ap-font-display); font-size:1.5rem; font-weight:700; line-height:1.4; color:var(--ap-ink); }
+.ap-speaker__bio{ margin-top:.75rem; font-size:.9375rem; line-height:1.85; color:var(--ap-text); }
+
+/* ---------- 頁尾 ---------- */
+.ap-footer__bg{ background:var(--ap-ink-deep); }
+.ap-footer__inner{ display:grid; grid-template-columns:1fr auto; align-items:center; row-gap:.75rem; padding-top:2rem; }
+.ap-footer__inner img{ height:1.75rem; width:auto; }
+.ap .ap-footer__link{ justify-self:end; color:#FFFFFF; font-size:.9375rem; font-weight:400; text-decoration:underline; text-underline-offset:.25em; }
+.ap .ap-footer__link:hover{ color:var(--ap-on-dark-accent); }
+.ap .ap-footer__link:focus-visible{ outline:2px solid #FFFFFF; outline-offset:3px; border-radius:2px; }
+.ap-footer__copy{ grid-column:1 / -1; font-size:.8125rem; color:#9AA6BA; }
+
+/* ---------- 感謝頁 KV：插圖往上提、加報名後須知 ---------- */
+.ap-kv--ty.ap-flow{ min-height:35rem; }
+.ap-kv--ty .ap-kv__title{ margin-top:6rem; }
+.ap-kv--ty .ap-kv__illus{ top:7.4rem; }
+.ap-kv__note{ margin-top:1.25rem; max-width:28rem; font-size:.9375rem; line-height:1.8; color:var(--ap-text); }
+.ap-kv__note strong{ font-weight:700; color:var(--ap-ink); }
+
+/* ---------- 感謝頁第二段：更多 AlleyPin 資訊（固定模板；文字連結不改，樣式跟這次活動頁同一套） ---------- */
+.ap-ty2 .ap-h2{ text-align:center; }
+.ap-more{ margin-top:3rem; display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+/* 圖示／標題／敘述／連結四列共用外層列（subgrid）：敘述長短不同，連結列仍對齊同一條線 */
+.ap-more__item{ display:grid; grid-row:span 4; grid-template-rows:subgrid; row-gap:0; background:#FFFFFF; border:1px solid var(--ap-line); border-radius:1.5rem; overflow:hidden; }
+.ap-more__icon{ display:grid; place-items:center; width:2.75rem; height:2.75rem; margin:1.75rem 1.75rem 0; border-radius:50%; background:var(--ap-mist); color:var(--ap-ink); }
+.ap-more__icon svg{ width:1.75rem; height:1.75rem; }
+.ap-more__title{ margin:1rem 1.75rem 0; font-size:1.125rem; font-weight:700; line-height:1.55; color:var(--ap-ink); }
+.ap-more__text{ margin:.5rem 1.75rem 0; font-size:.9375rem; line-height:1.8; color:var(--ap-text); }
+.ap .ap-more__cta{ display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-top:1.5rem; padding:1rem 1.75rem; background:var(--ap-accent-soft); font-size:1rem; font-weight:700; line-height:1.5; color:var(--ap-ink); text-decoration:none; transition:background-color .2s ease; }
+.ap .ap-more__cta svg{ flex:none; width:1.25rem; height:1.25rem; color:var(--ap-accent); transition:transform .2s ease; }
+.ap .ap-more__cta:hover{ background:var(--ap-mist); text-decoration:none; }
+.ap .ap-more__cta:hover svg{ transform:translateX(3px); }
+.ap .ap-more__cta:focus-visible{ outline:3px solid var(--ap-ink); outline-offset:-3px; }
+
+/* ==========================================================
+   報名區：左欄須知（編輯器裡唯一的區塊，高度寫在 layout.json）
+   ========================================================== */
+.ap-signup__bg{ background:none; } /* 白底交給 Instapage 區塊設定；這層若壓在表單上面也不會遮住它 */
+.ap-signup__shape{ position:absolute; left:-10rem; bottom:5rem; width:20rem; height:20rem; border-radius:50%; background:var(--ap-mist); }
+.ap-info{ padding-top:4rem; padding-right:1rem; }
+.ap-notes{ margin-top:2rem; display:grid; gap:1.75rem; }
+.ap-note dt{ display:flex; align-items:center; gap:.5rem; font-weight:700; font-size:1.0625rem; color:var(--ap-ink); }
+.ap-note dt svg{ width:1.375rem; height:1.375rem; flex:none; color:var(--ap-accent); }
+.ap-note dd{ margin-top:.375rem; padding-left:1.875rem; font-size:.9375rem; line-height:1.8; color:var(--ap-text); }
+.ap-note strong{ font-weight:700; color:var(--ap-ink); }
+.ap-note a{ color:var(--ap-ink); text-decoration:underline; text-underline-offset:.2em; }
+.ap-note a:focus-visible{ outline:2px solid var(--ap-ink); outline-offset:2px; border-radius:2px; }
+
+/* ==========================================================
+   手機
+   ========================================================== */
+@media (max-width:767px){
+  .ap-sec{ padding:4rem 1.5rem 0; }
+  .ap-h2{ font-size:1.75rem; }
+  .ap-intro{ font-size:1rem; }
+  .ap-sec__cta{ margin-top:2.25rem; }
+  .ap-cards{ grid-template-columns:1fr; gap:1rem; margin-top:2rem; }
+  .ap-card__body{ padding:1.375rem 1.25rem 1.25rem 4.5rem; }
+  .ap-card__icon{ left:1.125rem; top:1.25rem; width:2.5rem; height:2.5rem; }
+  .ap-card__icon svg{ width:1.5rem; height:1.5rem; }
+  .ap-card__title{ font-size:1.0625rem; }
+  .ap-card__value{ padding:.875rem 1.25rem .875rem 4.5rem; font-size:.9375rem; }
+  .ap-points{ grid-template-columns:1fr; gap:1.5rem; margin-top:2.5rem; padding-top:1.75rem; }
+  .ap-fits{ grid-template-columns:1fr; gap:2rem; margin-top:2rem; }
+  .ap-fit__title{ margin-top:1rem; font-size:1.0625rem; }
+  .ap-split{ grid-template-columns:1fr; gap:2rem; }
+  .ap-journey{ --ap-scene-h:6.4rem; grid-template-columns:1fr 2.75rem 1fr; }
+  .ap-scene__art{ border-radius:1.25rem; }
+  .ap-scene figcaption{ font-size:.875rem; }
+  .ap-scene figcaption b{ font-size:1rem; }
+  .ap-agenda{ margin-top:1.75rem; }
+  .ap-slot{ grid-template-columns:1fr; gap:.375rem; padding:1.375rem 0; }
+  .ap-slot__time, .ap-slot__title{ font-size:1.0625rem; }
+  .ap-speakers{ grid-template-columns:1fr; gap:1rem; margin-top:1.75rem; }
+  .ap-speaker{ grid-template-columns:1fr; gap:1rem; padding:1.5rem; }
+  .ap-speaker__photo{ width:5.5rem; height:5.5rem; font-size:.75rem; }
+  .ap-speaker__name{ font-size:1.375rem; }
+  .ap-footer__inner{ grid-template-columns:1fr; padding:2rem 1.5rem 0; }
+  .ap .ap-footer__link{ justify-self:start; }
+  .ap-kv--ty.ap-flow{ min-height:0; }
+  .ap-kv--ty .ap-kv__title{ margin-top:16.75rem; }
+  .ap-kv--ty .ap-kv__illus{ top:4rem; }
+  .ap-more{ grid-template-columns:1fr; gap:1rem; margin-top:2rem; }
+  .ap-more__icon{ margin:1.5rem 1.25rem 0; }
+  .ap-more__title{ margin:1rem 1.25rem 0; font-size:1.0625rem; }
+  .ap-more__text{ margin:.5rem 1.25rem 0; }
+  .ap .ap-more__cta{ padding:.875rem 1.25rem; font-size:.9375rem; }
+  .ap-info{ padding:3rem 1.5rem 0; }
+  .ap-notes{ margin-top:1.5rem; gap:1.375rem; }
+  .ap-signup__shape{ left:auto; right:-6rem; bottom:auto; top:2rem; width:11rem; height:11rem; }
+}

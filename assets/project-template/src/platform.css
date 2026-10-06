@@ -1,0 +1,144 @@
+/* ==========================================================
+   AlleyPin 活動頁｜平台層（Instapage 的規矩，每一檔活動都一樣）
+   貼在 Instapage「HTML/CSS > Head」（build.py 會和 design.css 合併成 1_head.html）
+   這個檔案的每一條都是踩過坑才留下來的，改之前先讀 skill 的 references/pitfalls.md。
+   - 尺寸一律用 rem：Instapage 依螢幕寬度縮放 :root 字級（≤400：4vw；401–767：16px；768–1200：1.33vw），
+     用 rem 才會跟編輯器裡固定高度的區塊一起等比縮放；用 px 在 768–1200 會溢出
+   - class 全部加 ap- 前綴，避開 Instapage 內建 class（.hidden、.clearfix、.item-*）
+   - 原生表單用 body#landing-page 起頭提高權重，才蓋得過 Instapage 的 #element-xxx 規則
+   - 不要在任何自訂碼裡寫 $( ：會強制 Instapage 載入 jQuery
+   ========================================================== */
+
+/* 不要加 CSS 平滑捲動（scroll-behavior）：Instapage 上線頁的 Cradle.js 會攔截所有 href="#…" 連結，自己用 300ms 的
+   requestAnimationFrame 迴圈捲動，直到實際位置與目標差 ≤1px 才停。再疊 CSS 平滑捲動，每一格的 window.scroll()
+   都變成非同步動畫、永遠追不上目標，尾段拖很久又一直搶捲動（2026-10-05 Cofit 頁手機實測卡住；本機重現 1769ms → 拿掉後 315ms） */
+/* 滿版底色層（.ap-bleed）是 100vw，會比有捲軸的視窗多出捲軸寬：用 clip 擋住橫向捲軸（不支援 clip 的瀏覽器退回 hidden） */
+html{ overflow-x:hidden; }
+@supports (overflow:clip){ html,body{ overflow-x:clip; } }
+
+/* ---------- 基礎 ---------- */
+/* Instapage 的 <html> 沒有 lang，字型堆疊要明寫中文備援（蘋方體、微軟正黑體），不然 Windows 會掉到新細明體 */
+.ap{ position:relative; width:100%; height:100%; font-family:var(--ap-font-body); color:var(--ap-text); font-size:1rem; line-height:1.75; letter-spacing:.01em; text-align:left; }
+/* 重置用 :where() 把權重降到最低，元件自己的 class 才蓋得過 */
+:where(.ap) *{ box-sizing:border-box; }
+:where(.ap) :where(h1,h2,h3,h4,p,dl,dt,dd){ margin:0; padding:0; }
+:where(.ap) img{ display:block; max-width:none; }
+:where(.ap) a{ color:inherit; }
+:where(.ap) figure{ margin:0; }
+/* Instapage 內建 ol,ul{padding-left:2.5rem}，所以這條要有 .ap 的權重才蓋得過 */
+.ap :where(ul,ol){ list-style:none; margin:0; padding:0; }
+.ap-display{ font-family:var(--ap-font-display); }
+
+/* 換行規則（2026-10-05／06 Hsing 手機實測後定案）：
+   - 標題也「齊寬換行」：不加 text-wrap 的 balance、不加 word-break 的 keep-all（keep-all 會讓中文只在逗點後換行）。
+     要刻意分行就在 HTML 寫 <br>；只想桌機分行用 <br class="ap-br-desk">。
+   - 孤字（最後一行只剩一個字）用刪字解，不用 CSS。
+   - 內文不要加 text-wrap 的 pretty：Safari（WebKit）會對整段重排來修右緣，手機上每一行都可能提早換行。 */
+@media (max-width:767px){ .ap-br-desk{ display:none; } } /* 手機一行只放得下約 20 字，硬斷會留下孤字或短行 */
+
+/* 滿版底色層：從元件內往左右延伸到整個視窗寬 */
+.ap-bleed{ position:absolute; top:0; bottom:0; left:calc(var(--ap-col-half) - 50vw); width:100vw; pointer-events:none; z-index:0; }
+.ap-layer{ position:relative; z-index:1; }
+
+/* Body／Footer 欄位的段落（build.py 自動加 ap-flow）：不在 Instapage 區塊裡，是一般文件流。
+   寬度＝Instapage 內容欄（桌機 960、手機 400，同樣用 rem 跟著縮放）、置中；高度由內容撐開，
+   段落底部留白取代「區塊高度減內容」的那段空間（桌機約 96px、手機約 64px） */
+.ap.ap-flow{ width:60rem; height:auto; margin:0 auto; padding-bottom:6rem; }
+.ap-footer.ap-flow{ padding-bottom:2rem; }
+@media (max-width:767px){
+  .ap.ap-flow{ width:25rem; padding-bottom:4rem; }
+  .ap-footer.ap-flow{ padding-bottom:2rem; }
+}
+
+/* 動態只留一個（KV 插圖浮上來一次）；系統設定減少動態就不動 */
+@keyframes ap-rise{ from{ opacity:0; transform:translateY(1rem); } }
+@media (prefers-reduced-motion:reduce){ .ap *{ animation:none !important; transition:none !important; } }
+
+/* ==========================================================
+   Instapage 原生表單（只改外觀，不動欄位與送出機制）
+   表單一定要用原生的：送出時帶 Instapage 簽章的 lpsSubmissionConfig 與 zapier2-integration 欄位對應，
+   程式寫的表單進不了 Leads、不觸發 Zapier、不寄通知、不算轉換。
+   ========================================================== */
+body#landing-page form.email-form{
+  position:relative; padding:2.25rem 2.25rem 2.5rem; background:#FFFFFF;
+  border:1px solid var(--ap-line); border-radius:1.75rem;
+  box-shadow:0 1.5rem 3.5rem -1.75rem var(--ap-form-shadow);
+  font-family:var(--ap-font-body); font-size:1rem; line-height:1.5; color:var(--ap-text);
+}
+/* 表單標題用 CSS 加（後台沒有這個欄位）；文字在 design.css 的 --ap-form-title，build.py 會把它算進字型子集 */
+body#landing-page form.email-form::before{
+  content:var(--ap-form-title); display:block; margin-bottom:.75rem;
+  font-family:var(--ap-font-display); font-weight:700; font-size:1.75rem; line-height:1.35; letter-spacing:.02em; color:var(--ap-ink);
+}
+body#landing-page form.email-form .form-label-title{
+  display:block; padding:0; margin:1rem 0 .375rem; color:var(--ap-text);
+  font-size:.9375rem; font-weight:400; line-height:1.5;
+}
+body#landing-page form.email-form .form-input{
+  height:3rem; min-height:0; margin:0; padding:0 .875rem;
+  background-color:var(--ap-field); color:var(--ap-ink-deep);
+  border:1px solid var(--ap-field-line); border-radius:.75rem; box-shadow:none;
+  font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif; font-size:1rem; line-height:1.5; /* 使用者輸入的字不在字型子集裡，直接用系統字 */
+  transition:border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+body#landing-page form.email-form .form-input:hover{ border-color:var(--ap-field-line-hover); }
+body#landing-page form.email-form .form-input:focus{
+  outline:none; background-color:#FFFFFF; border-color:var(--ap-focus);
+  box-shadow:0 0 0 .1875rem var(--ap-focus-ring);
+}
+body#landing-page form.email-form .form-select{
+  padding-right:2.75rem;
+  background:var(--ap-field) var(--ap-select-arrow) no-repeat right .875rem center / 1.25rem 1.25rem;
+}
+/* 沿用 Instapage 預設：選之前不顯示英文的「-- Select one --」，選了才顯示 */
+body#landing-page form.email-form .form-select{ color:transparent; }
+body#landing-page form.email-form .form-select[aria-invalid="false"]{ color:var(--ap-ink-deep); }
+body#landing-page form.email-form .form-input.user-invalid{ border-color:#D9534A; background-color:#FFF8F7; }
+body#landing-page form.email-form .user-invalid-label{ color:#C2453C; }
+
+/* 勾選確認 */
+body#landing-page form.email-form .form-checkable-field{ margin-top:1.5rem; padding:1rem 1.125rem; border-radius:1rem; background:var(--ap-mist); }
+body#landing-page form.email-form .form-label-checkbox{ margin:0 0 .625rem; font-size:.875rem; font-weight:400; line-height:1.7; color:var(--ap-muted); }
+body#landing-page form.email-form .form-block-checkbox{ position:relative; }
+body#landing-page form.email-form .form-multiple-label{ display:inline-block; position:relative; margin:0; padding-left:1.875rem; font-size:.9375rem; font-weight:700; line-height:1.5; color:var(--ap-ink); cursor:pointer; }
+body#landing-page form.email-form .form-multiple-label::before{ position:absolute; left:0; top:.125rem; width:1.25rem; height:1.25rem; margin:0; border:1.5px solid var(--ap-field-line-hover); border-radius:.375rem; background:#FFFFFF; vertical-align:0; }
+body#landing-page form.email-form .form-checkbox-label::after{ top:.3125rem; left:.4375rem; width:.375rem; height:.6875rem; border-right:.1875rem solid; border-bottom:.1875rem solid; color:#FFFFFF; }
+body#landing-page form.email-form .form-multiple-input:checked + .form-checkbox-label::before{ background:var(--ap-ink); border-color:var(--ap-ink); }
+body#landing-page form.email-form .form-multiple-input:focus-visible + .form-multiple-label::before{ border:2px solid var(--ap-focus); box-shadow:0 0 0 .1875rem var(--ap-focus-ring); }
+
+/* 送出按鈕：Instapage 預設是絕對定位（.form-btn-geometry 寫死 top）。改了欄位樣式高度就變了，
+   不改成跟著欄位排會跟最後一欄重疊 */
+body#landing-page form.email-form .form-btn-container{
+  position:relative; top:auto; left:auto; width:100%; height:auto; margin-top:1.75rem; z-index:auto;
+}
+body#landing-page form.email-form .btn.form-btn{
+  display:flex; align-items:center; justify-content:center; width:100%; height:3.5rem; min-height:0;
+  border:0; border-radius:999px; background:var(--ap-cta); color:var(--ap-cta-text);
+  font-family:var(--ap-font-body); font-size:1.125rem; font-weight:700; letter-spacing:.08em;
+  box-shadow:0 .75rem 1.5rem -.75rem var(--ap-cta-shadow);
+  transition:background-color .2s ease, transform .2s ease;
+}
+body#landing-page form.email-form .btn.form-btn:hover{ background:var(--ap-cta-hover); color:var(--ap-cta-text); transform:translateY(-1px); }
+body#landing-page form.email-form .btn.form-btn:focus-visible{ outline:3px solid var(--ap-ink); outline-offset:3px; }
+
+/* 桌機：欄位排成兩欄（多欄排版依 DOM 順序往下流，欄位增減或換順序都不會錯位） */
+@media (min-width:768px){
+  body#landing-page form.email-form{ column-count:2; column-gap:1.25rem; }
+  body#landing-page form.email-form::before,
+  body#landing-page form.email-form .form-checkable-field,
+  body#landing-page form.email-form .form-btn-container{ column-span:all; }
+  body#landing-page form.email-form .form-label-title{ break-after:avoid; -webkit-column-break-after:avoid; }
+  body#landing-page form.email-form > input,
+  body#landing-page form.email-form .form-block-select{ break-inside:avoid; -webkit-column-break-inside:avoid; }
+  body#landing-page form.email-form > .form-label-title:first-of-type{ margin-top:0; }
+}
+
+/* 驗證提示框 */
+body#landing-page .form-messagebox-contents{ border-radius:.5rem; font-family:var(--ap-font-body); }
+
+@media (max-width:767px){
+  body#landing-page form.email-form{ padding:1.75rem 1.25rem 2rem; border-radius:1.5rem; }
+  /* iOS Safari 遇到字級 < 16px 的輸入框會在點擊時自動放大頁面；手機根字級是 4vw（390 寬時 15.6px），所以保底 16px */
+  body#landing-page form.email-form .form-input{ font-size:max(1rem,16px); }
+  body#landing-page form.email-form::before{ font-size:1.5rem; }
+}

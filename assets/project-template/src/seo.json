@@ -1,0 +1,11 @@
+{
+  "_說明": "兩頁的頁面標題（SEO title，也是 LINE／FB 分享的標題）與描述（SEO description，也是分享預覽的說明）。events.alleypin.com 預設 noindex，這些字主要出現在分享預覽：重點放前面，被截斷也不掉主訊息。build.py 會輸出到 out/上傳用/SEO與社群設定.txt，並帶進上稿指南。",
+  "campaign": {
+    "title": "〔待填：KV 主標｜活動名稱〕",
+    "description": "〔待填：副標＋這場會得到什麼＋日期時間地點＋免費報名〕"
+  },
+  "thankyou": {
+    "title": "〔待填：KV 主標｜感謝您的報名〕",
+    "description": "〔待填：感謝您報名○○。審核制與寄信日期，照報名須知〕"
+  }
+}

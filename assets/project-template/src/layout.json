@@ -1,0 +1,36 @@
+{
+  "_說明": "頁面結構：body＝貼在頁面設定 HTML/CSS → Body 的段落（依序，一般文件流、高度由內容撐開）；footer＝貼在 HTML/CSS → Footer；blocks＝真正要在 Instapage 編輯器建的區塊（只有報名須知＋原生表單）。blocks 的座標是 Instapage 編輯器的 px（桌機內容欄 960 寬、手機 400 寬），x/y 從內容欄左上角算。報名須知或表單欄位改了，要用 scripts/qa_page.py 量內容底部、更新這裡的高度（桌機留約 96px、手機約 64px），再重跑 build.py。數字是 Cofit 案的值，表單欄位數不同就要重量。",
+  "pages": [
+    {
+      "id": "campaign",
+      "name": "〔待填：活動名稱〕｜活動頁",
+      "short": "活動頁",
+      "preview": "preview.html",
+      "body": ["kv.html", "s1-cards.html", "s2-agenda.html", "s3-speakers.html"],
+      "footer": ["footer.html"],
+      "blocks": [
+        {
+          "id": "signup",
+          "name": "報名區塊（唯一要在編輯器建的區塊）",
+          "bg": "#FFFFFF",
+          "desktop_h": 880,
+          "mobile_h": 1776,
+          "elements": [
+            {"id": "signup-html", "type": "html", "src": "signup-info.html", "snippet": "3_signup-block.html", "root": "ap-info",
+             "name": "HTML 元件（報名須知）", "desktop": [0, 0, 380, 880], "mobile": [0, 0, 400, 632]},
+            {"id": "form", "type": "form", "name": "原生表單元件", "desktop": [420, 64, 540, 740], "mobile": [16, 640, 368, 1090]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thankyou",
+      "name": "〔待填：活動名稱〕｜感謝頁",
+      "short": "感謝頁",
+      "preview": "preview_thankyou.html",
+      "body": ["ty-kv.html", "ty-more.html"],
+      "footer": ["footer.html"],
+      "blocks": []
+    }
+  ]
+}

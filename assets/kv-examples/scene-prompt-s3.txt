@@ -1,0 +1,39 @@
+IMPORTANT: pure image-generation task. Do not read any files or notes; use only the attached reference images and this text.
+
+Use your built-in image generation tool to create THREE images in this order as one consistent set, and save them as ./s3-1.png, ./s3-2.png, ./s3-3.png (keep original resolution, do not resize, do not open Finder). After the first image, use it as the reference for the next ones so style, framing and character scale stay identical.
+
+Input images:
+- Image 1: the page's hero illustration — reference ONLY for Shandou's doctor outfit, the character look and line weight (see below)
+- Image 2: Shandou turnaround model sheet — identity reference, match exactly
+- Image 3: Yiji turnaround model sheet — identity reference, match exactly
+- Image 4: Tusi turnaround model sheet — identity reference, match exactly
+- Image 5: height lineup of all characters at the same scale — use ONLY for relative heights
+- Image 6: group scenes — use ONLY for the doctor's coat details
+
+Use case: illustration-story
+Asset type: landing page section illustrations (one matched set)
+FRAMING RULES (identical for every image in this set): landscape 3:2 (1536x1024); medium shot — characters seen from the waist up sitting behind a simple rounded table that runs across the lower quarter of the frame; characters at the same scale in every image (Shandou's head top at about 20% from the top edge); eye-level camera; minimal props only; FULLY TRANSPARENT background, only the subject — no room, no walls, no floor, no scenery.
+TABLE AND PROPS: the table is a pale-blue (#DCE7F4) rounded rectangle with a near-black outline. Prop colors: mint #49AE86, light mint #DDF0E7, deep ink green #144E4F, white, light gray #E5E4DF for screens and devices.
+EDGES AND LAYERING (an earlier set was rejected for this kind of mistake):
+- The table is IN FRONT of the characters: each character's body is cut off only by the table's top edge, cleanly. No body or prop is cut off by an edge floating in empty space.
+- Every outline and line starts and ends on something; no stroke stops in mid-air.
+- Flat fills only: no gradients, no glows, no blurry halos, no shadows.
+SHANDOU'S DOCTOR OUTFIT: exactly the same outfit as Shandou wears in Image 1 — a white doctor's coat with thin blue-gray outlines, light-blue shirt and a blue tie. His chest "M" mark may be hidden by the shirt, as in Image 1. Use Image 1 ONLY for this outfit, the character look and the line weight; do NOT copy its background shapes, white path, badges or food plate.
+NO text, letters, numbers or logos anywhere (screens and papers show only simple shapes). NO pills, capsules, supplement boxes, bottles, syringes or medical crosses. Warm, professional, friendly.
+Every image has exactly TWO characters sitting side by side behind the same style of table.
+Relative heights (critical): Shandou 100%, Tusi about 89%, Yiji about 78% — so Shandou's head is always the highest, Tusi's a little lower, Yiji's lower still.
+Tusi is the clinic partner and wears NO clothes (plain white body as in its model sheet).
+
+IMAGE 1 (s3-1.png) "patient consultation": Shandou (left, doctor outfit) explaining to Yiji (right, the patient); Shandou holds a tablet showing a simple balanced-plate pie shape; a small speech bubble with a plate icon (vegetables, fish, grains as simple shapes) above between them.
+IMAGE 2 (s3-2.png) "team discussing a new service": Shandou (left, doctor outfit) and Tusi (right) discussing together; a small standing board on the table shows an upward growth line shape; a small lightbulb above them.
+IMAGE 3 (s3-3.png) "easy clinic planning": Tusi (left) and Shandou (right, doctor outfit) relaxed, looking at a clipboard checklist with all items checked (check marks only, no text) and a small desk calendar shape; Tusi gives a thumbs up with its small wing.
+
+Style: AlleyPin "PinFriends" mascot style. Flat 2D vector-like cartoon, clean near-black outlines (#171918), medium-thin and consistent line weight with rounded ends (only the tiny red ball Shizi uses a bolder line), flat solid color fills, no gradients, no textures, no 3D shading, no drop shadows. Chunky simple silhouettes, stubby limbs, mostly no neck. Tiny minimal facial features placed high on the face (dot or short-dash eyes) for a calm, deadpan, cute look. Expressions only through small flat marks: pink blush ovals, light-blue sweat drops, yellow sparkles, red "!!", question marks, music notes. Soft, muted palette overall; Yiji's black-and-white and Shizi's red are the bolder accents.
+
+SHANDOU (山豆) — a pale blue-gray bear. Head and body form ONE continuous tall rounded dome with no neck, narrow at the top and widening toward the hips like a gourd or bell; body width about 0.55x its height. Body fill #D2E2E3. Two small half-circle ears in solid teal #57ABBE at the top corners, no inner-ear color. Face sits high (roughly 15%-30% down from the top of the head): two tiny short vertical-dash eyes, a white oval muzzle with a small teal bean-shaped nose on top of it. NO visible mouth in neutral or happy expressions; the short shallow curved line below the muzzle is the CHIN line, not a mouth, so never turn it into a smile or draw a mouth on or inside the muzzle. Happiness is shown only with the eyes and pink blush. Only for surprise, a small open mouth (dark inside with a tongue) hangs from the bottom edge of the muzzle, between the muzzle and the chin line. Signature mark on the chest: a flat pure-white "M" / double-peak chevron (two small peaks with a notch between them, the two wings sloping down and outward), no gradient, no transparency. Long soft arms hang along the sides to about two-thirds down the body. Short stubby legs (bottom fifth of the height) with rounded feet. A small round teal tail on the back. Calm, deadpan expression.
+
+TUSI (吐司) — a white duck with a flat duck bill whose body is shaped like a slice of toast bread (not a realistic duck: no neck, no feathers, no curved duck body): a tall capsule with a domed top, nearly straight vertical sides and a rounded bottom; body width about half its height. Pure white fill #FFFFFE with a near-black outline. Face in the upper third: two tiny short vertical-dash eyes and ONE single slanted eyebrow line above its right eye (viewer's left), sloping down toward the center, giving a deadpan skeptical look. A wide flat mustard-yellow duck bill (#E0D46E) with a thin ORANGE outline (#D9A154, not black), two tiny nostril dots on top and a small rounded lower bill. Small rounded wing-arms at mid-body. Two thin straight mustard-yellow stick legs with small webbed feet pointing outward, also outlined in orange. No tail, no hair, no feather texture.
+
+YIJI (伊吉) — a black-and-white penguin wearing headphones. Pear-shaped body, widest near the bottom; black head and back (#171918). A white heart-shaped face patch (two rounded lobes at the top with a small notch in the middle) that continues down into a white belly. Two round black dot eyes. A SMALL rounded mustard-yellow beak (#DBD06D) with an orange outline (#DC853D) and a tiny smile line inside. Deep navy headphones (#345293, not bright royal blue): a thin headband over the top of the head and round navy ear cups with orange ear pads (#DC853D) on both sides, the cups sticking out past the head outline. Long black flippers hanging at the sides. Small mustard-yellow feet with orange outlines.
+
+Constraints: match the turnaround model sheets exactly in silhouette, proportions, colors and line weight; flat fills only; no extra characters.

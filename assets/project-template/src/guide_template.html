@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>上稿指南｜{{EVENT_NAME}}</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{ --ink:#144E4F; --text:#2A3B3B; --muted:#5F6F6D; --line:#DCE8E5; --bg:#F6FAF9; --orange:#F5A252; --warn:#B4532A; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--text); font:15px/1.75 "Noto Sans TC",sans-serif; }
+main{ max-width:880px; margin:0 auto; padding:40px 20px 80px; }
+h1{ font-size:28px; line-height:1.35; color:var(--ink); margin:0 0 6px; }
+h2{ font-size:20px; color:var(--ink); margin:44px 0 12px; padding-top:20px; border-top:1px solid var(--line); }
+h3{ font-size:16px; color:var(--ink); margin:22px 0 6px; }
+p{ margin:6px 0; } .muted{ color:var(--muted); }
+code{ font-family:ui-monospace,Menlo,monospace; font-size:13px; background:#E8F1EF; padding:1px 6px; border-radius:4px; color:#0E3A3B; }
+ol,ul{ padding-left:22px; } li{ margin:4px 0; }
+.card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:14px 0; }
+.note{ background:#FFF6EC; border:1px solid #F3D3AE; border-radius:12px; padding:12px 16px; margin:12px 0; }
+.note b{ color:var(--warn); }
+table{ width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:14px; }
+th,td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+thead th{ background:#EAF3F1; color:var(--ink); font-weight:700; }
+tr.blk th{ background:#F2F7F6; color:var(--ink); }
+.check td:first-child{ width:34%; font-weight:700; color:var(--ink); }
+.map td:first-child{ width:30%; font-weight:700; color:var(--ink); white-space:nowrap; }
+.flow{ display:grid; gap:6px; margin:14px 0; }
+.flow div{ padding:10px 14px; border-radius:10px; border:1px solid var(--line); background:#fff; }
+.flow .real{ background:#FFF6EC; border-color:#F3D3AE; }
+.flow b{ color:var(--ink); }
+.snip{ background:#fff; border:1px solid var(--line); border-radius:12px; margin:12px 0; overflow:hidden; }
+.snip__head{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 14px; border-bottom:1px solid var(--line); }
+.snip__head span{ display:block; font-size:13px; color:var(--muted); }
+.snip textarea{ display:block; width:100%; height:120px; border:0; padding:12px 14px; font:12px/1.5 ui-monospace,Menlo,monospace; color:#334; background:#FBFDFC; resize:vertical; }
+button{ font:700 14px "Noto Sans TC",sans-serif; color:#0E3A3B; background:var(--orange); border:0; border-radius:999px; padding:8px 18px; cursor:pointer; white-space:nowrap; }
+button.done{ background:var(--ink); color:#fff; }
+button:focus-visible{ outline:3px solid var(--ink); outline-offset:2px; }
+.imgs{ display:grid; grid-template-columns:1.9fr 1fr; gap:16px; align-items:start; } .imgs img{ width:100%; border:1px solid var(--line); border-radius:10px; display:block; }
+.shots{ display:grid; grid-template-columns:3fr 1fr; gap:16px; align-items:start; }
+.shots figure{ margin:0; } .shots img{ width:100%; border:1px solid var(--line); border-radius:10px; display:block; }
+.shots figcaption{ font-size:13px; color:var(--muted); margin-top:6px; }
+@media (max-width:640px){ .shots{ grid-template-columns:1fr; } }
+</style></head>
+<body><main>
+
+<h1>{{EVENT_NAME}}｜Instapage 上稿指南</h1>
+<p class="muted">活動頁：貼 3 段程式碼＋只建 1 個區塊（報名須知＋原生表單）。感謝頁：貼 3 段程式碼、不建區塊。程式碼都在第八節，按「複製」直接貼。</p>
+
+<h2>一、整頁結構：程式碼貼哪裡</h2>
+<p>Instapage 的頁面設定（右側 Page Settings → HTML/CSS）有 Head、Body、Footer 三格，都是<b>整頁共用</b>。上線時它們的位置是固定的（2026-10-05 拆 nova-webinar 上線原始碼確認，Cofit 頁上線驗證）：</p>
+<div class="flow">
+  <div><b>Head</b>：放在 &lt;head&gt; 裡 → 貼 <code>1_head.html</code>（字型＋全部樣式，含表單外觀）</div>
+  <div><b>Body</b>：插在頁面一開頭、<b>所有區塊之前</b> → 貼 <code>2_body.html</code>（{{BODY_LIST}}）</div>
+  <div class="real"><b>編輯器裡唯一的區塊</b>：報名須知（左側欄拖一個 HTML 元件，貼 <code>3_signup-block.html</code>）＋ Instapage 原生表單</div>
+  <div><b>Footer</b>：插在<b>所有區塊之後</b> → 貼 <code>4_footer.html</code>（頁尾）</div>
+</div>
+<p>所以只有表單那一段需要在編輯器裡真的建區塊；它前面的段落放 Body、後面的頁尾放 Footer，剛好夾住它。Body、Footer 的段落高度由內容自己撐開，不用在後台設高度。</p>
+<div class="note"><b>注意</b>：Head、Body、Footer 的程式碼在編輯器和預覽模式都<b>看不到</b>（編輯器裡只會看到表單那一個區塊），一定要發布才看得到。所以先發布到測試網址。</div>
+
+<h2>二、表單：欄位手動建，外觀用程式</h2>
+<h3>為什麼表單不能用程式寫</h3>
+<ul>
+  <li>Instapage 原生表單送出時，會附上一組由 Instapage 簽章的表單設定（<code>lpsSubmissionConfig</code>），和一份 Zapier 欄位對應（<code>zapier2-integration</code>，依欄位名稱一對一對應）。程式寫的表單拿不到這個簽章，名單進不了 Instapage Leads，也不會觸發 Zapier。</li>
+  <li>官方說明也寫明：用程式嵌入的表單不會跟原生整合、名單收集、通知信連動，也不算進轉換。</li>
+</ul>
+<h3>分工</h3>
+<table class="map"><tbody>
+<tr><td>在後台手動設</td><td>欄位與選項、必填、Zapier 連線、送出後導向感謝頁、送出按鈕文字</td></tr>
+<tr><td>程式接管（1_head.html）</td><td>表單外觀：白底圓角卡片、欄位樣式、桌機自動排兩欄、報名按鈕、表單標題。後台的顏色、字型都不用調。</td></tr>
+</tbody></table>
+<h3>建議做法：複製 {{SOURCE_PAGE}} 的表單</h3>
+<p>複製整頁會把表單欄位、UTM 隱藏欄位帶過來，<b>但 Zapier 連線不會</b>（2026-10-05 實測：複製出來的 cofit 頁，上線原始碼裡沒有 Zapier 欄位對應）。也會把來源頁的<b>頁面標題、描述、社群縮圖、送出後導向</b>一起帶過來。複製後這幾處一定要改：</p>
+<ol>
+  <li><b>欄位</b>：照下表逐欄核對名稱、必填、選項。欄位改了名，Zapier 的欄位對應要跟著改，不然那欄會對不到。</li>
+  <li><b>Zapier</b>：到表單設定的 Integrations 重新接上。要送進既有的 Zap，還是另開這檔專用的，由 Hsing 決定。</li>
+  <li><b>送出後導向</b>：改成這次的感謝頁（感謝頁要先發布，清單裡才選得到）。<span class="muted">原始碼裡的導向值長得像 <code>app.instapage.com/route/&lt;id&gt;/?url=…</code>，<b>真正落點是 route 跳轉後的網址，不是 url= 後面那段</b>（2026-10-06 實測：url= 寫 kaitest_ty，實際跳到 nova-webinar-thankyou）。用 <code>check_live.py</code> 驗。</span></li>
+  <li><b>送出按鈕文字</b>：照下表。</li>
+</ol>
+<h3>欄位（照順序）</h3>
+<table>
+<thead><tr><th>#</th><th>欄位名稱</th><th>類型</th><th>必填</th><th>選項</th></tr></thead>
+<tbody>
+{{FORM_ROWS}}
+</tbody></table>
+<p class="muted">另有 5 個 UTM 隱藏欄位（utm_source、utm_medium、utm_campaign、utm_content、utm_term），複製來源頁就會帶過來，不用動。欄位增減、換順序，桌機兩欄排版都會自動跟著排。</p>
+
+<h2>三、驗收清單</h2>
+<p>每一項的「沒過」長得跟「過了」不一樣，打開網址一眼就看得出來：</p>
+<table class="check"><tbody>
+<tr><td>1. 樣式有載入</td><td>標題是設計稿的字型、表單是白底圓角卡片＋報名色膠囊按鈕。<br><span class="muted">沒過：標題是一般黑體、表單是 Instapage 預設的方形欄位與藍色按鈕 → Head 沒貼到。</span></td></tr>
+<tr><td>2. Body 有出現、滿版</td><td>表單上方依序有 {{BODY_LIST}}；有底色的段落都延伸到瀏覽器邊緣；拉窄視窗不會出現左右捲軸。<br><span class="muted">沒過：一打開就是報名須知和表單 → Body 沒貼到；或頁面下半段缺了 → Body 被截斷（見第九節）。</span></td></tr>
+<tr><td>3. 三段銜接</td><td>最後一段 → 報名區塊 → 頁尾之間沒有白縫、沒有互相蓋住，左右對齊同一條內容欄。</td></tr>
+<tr><td>4. 名單有進來</td><td>送一筆測試資料 → Instapage 的 Leads 看得到；Zapier 的 Zap History 也有這筆，欄位都對得上。</td></tr>
+<tr><td>5. 送出後到感謝頁</td><td>轉到<b>這次的</b>感謝頁：KV（「感謝您的報名！」＋同一張插圖＋報名後須知）→「更多 AlleyPin 資訊」三張卡片（三個連結都點得開）→ 頁尾。<br><span class="muted">沒過：跳到別檔活動的感謝頁 → 送出後導向還是來源頁的。</span></td></tr>
+<tr><td>6. 報名按鈕錨點</td><td>頁面上每一顆報名按鈕，點了約 0.3 秒捲到報名須知，停下後馬上可以滑動。<br><span class="muted">沒過：快到時拖很久才停、期間滑不動 → Head 裡有 CSS 平滑捲動（scroll-behavior），重貼最新的 <code>1_head.html</code>。</span></td></tr>
+<tr><td>7. 手機</td><td>用手機打開：第一屏看得到標題和報名按鈕；點輸入框時頁面不會被自動放大。</td></tr>
+<tr><td>8. 分享預覽</td><td>把網址貼到 LINE 給自己：標題、描述、縮圖都是這次活動的，不是來源頁的。X（Twitter）卡片的描述是另一組設定，也要對（check_live.py 會比對）。</td></tr>
+<tr><td>9. 手機沒有殘留</td><td>用手機看感謝頁與活動頁：頁尾之後、表單前後沒有來源頁的舊文字或空白大塊。</td></tr>
+</tbody></table>
+<h3>預期畫面（本機模擬 Instapage 上線後的樣子）</h3>
+<div class="shots">
+  <figure><img src="{{SHOT:campaign-desktop.jpg}}" alt="活動頁桌機預期畫面"><figcaption>活動頁｜桌機 1440 寬</figcaption></figure>
+  <figure><img src="{{SHOT:campaign-mobile.jpg}}" alt="活動頁手機預期畫面"><figcaption>活動頁｜手機 390 寬</figcaption></figure>
+</div>
+
+<h2>四、活動頁上稿步驟</h2>
+<ol>
+  <li>在頁面列表把 <b>{{SOURCE_PAGE}} 複製一份</b>（Duplicate），改名，網址先用測試網址（例如 <code>{{TEST_SLUG}}</code>）。</li>
+  <li>開編輯器，<b>刪掉表單以外的所有區塊</b>；表單所在的區塊裡，表單以外的元素也全部刪掉。桌機刪完<b>切到 Mobile 檢視再檢查</b>：只在手機顯示的元素在桌機看不到。</li>
+  <li><b>報名區塊</b>：照第五節設定高度和背景色。從左側欄拖一個 <b>HTML 元件</b>進來（點開是空白的），按 Edit 貼上 <code>3_signup-block.html</code>，照第五節設位置與尺寸；表單也照第五節設位置與尺寸。</li>
+  <li><b>表單</b>：照第二節核對欄位、接 Zapier、送出後導向這次的感謝頁、按鈕文字。</li>
+  <li><b>右側 Page Settings → HTML/CSS</b>：Head 貼 <code>1_head.html</code>、Body 貼 <code>2_body.html</code>、Footer 貼 <code>4_footer.html</code>。</li>
+  <li><b>手機版</b>：切到 Mobile 檢視，照第五節「手機」欄設定區塊高度和兩個元件的位置。<b>不要按 Regenerate</b>：會清掉手機版的所有手動設定。</li>
+  <li><b>SEO 與社群</b>：複製來的頁面標題、描述、社群縮圖都還是來源頁的，<b>三個都要換</b>（第七節）。</li>
+  <li><b>發布到測試網址</b>，照第三節逐項檢查。</li>
+</ol>
+<p class="muted">測試期間的名單：測試資料會進 Instapage Leads，也會經 Zapier 流進後面的試算表或 CRM，驗收完記得清掉或標註。</p>
+
+<h2>五、報名區塊位置與尺寸</h2>
+<p class="muted">單位 px，X／Y 從內容欄左上角算（桌機內容欄 960 寬、手機 400 寬）。這組數字跟程式碼裡的元件高度是同一份來源（src/layout.json），在後台改了任何一個數字要同步回來重新產生程式碼，不然高度會對不上。</p>
+<table>
+<thead><tr><th>項目</th><th>桌機</th><th>手機</th></tr></thead>
+<tbody>
+{{LAYOUT_ROWS:campaign}}
+</tbody></table>
+
+<h2>六、感謝頁</h2>
+<p>感謝頁是固定模板（以 <code>nova-webinar-thankyou</code> 為準）：KV 沿用活動頁視覺，加上感謝與報名後須知；第二段「更多 AlleyPin 資訊」固定三個列點、敘述、CTA，文字與連結照舊，<b>樣式跟這次活動頁同一套</b>；頁尾同活動頁。三段都用程式碼，所以舊區塊全部不用。</p>
+<ol>
+  <li>複製 <code>{{SOURCE_TY_PAGE}}</code>，改成這次的網址。</li>
+  <li><b>刪掉所有區塊</b>（舊 KV、舊第二段、舊頁尾都由程式碼取代）。<b>切到 Mobile 檢視再看一次</b>：來源頁可能有只在手機顯示的區塊，桌機檢視看不到（2026-10-06 cofit 感謝頁就留了一個 Nova 回饋活動的區塊）。<span class="muted">Instapage 若不讓頁面一個區塊都沒有，就留一個空區塊、高度設到最小、背景白色（未實測）。</span></li>
+  <li>右側 Page Settings → HTML/CSS：Head 貼 <code>1_head.html</code>、Body 貼 <code>ty_2_body.html</code>、Footer 貼 <code>4_footer.html</code>（頁尾跟活動頁同一段）。</li>
+  <li>頁面標題、描述、社群縮圖照第七節換掉。</li>
+  <li>發布後，回活動頁把表單的送出後導向設到這頁。</li>
+</ol>
+<div class="shots" style="margin-top:14px">
+  <figure><img src="{{SHOT:thankyou-desktop.jpg}}" alt="感謝頁桌機"><figcaption>感謝頁｜桌機</figcaption></figure>
+  <figure><img src="{{SHOT:thankyou-mobile.jpg}}" alt="感謝頁手機"><figcaption>感謝頁｜手機</figcaption></figure>
+</div>
+
+<h2>七、OG 圖、頁面標題與描述</h2>
+<p><b>上傳用的東西都在 <code>out/上傳用/</code></b>：兩頁的 OG 圖（同一張，檔名分頁）＋ <code>SEO與社群設定.txt</code>（下面四段文字，可直接複製）。</p>
+<table class="map"><tbody>
+<tr><td>活動頁｜標題</td><td>{{SEO:campaign.title}}</td></tr>
+<tr><td>活動頁｜描述</td><td>{{SEO:campaign.description}}</td></tr>
+<tr><td>感謝頁｜標題</td><td>{{SEO:thankyou.title}}</td></tr>
+<tr><td>感謝頁｜描述</td><td>{{SEO:thankyou.description}}</td></tr>
+</tbody></table>
+<p class="muted">events.alleypin.com 的活動頁預設是 noindex（不讓搜尋引擎收錄，複製來源頁就會帶過來），所以這些文字主要出現在 LINE／FB 分享預覽：標題＝分享標題、描述＝分享說明。重點放前面，被截斷也不掉主訊息。要不要開放收錄由 Hsing 決定。</p>
+<p>檔案在 <code>out/images/</code>：</p>
+<ul>
+  <li><code>og-1200x630.png</code>：上傳到 Instapage 的社群縮圖（這是整頁唯一需要上傳的圖）。</li>
+  <li><code>social-1200x1200.png</code>：社群宣傳貼文用。</li>
+  <li>兩張各附一份同名 <code>.pdf</code> 向量檔，Illustrator 可以直接開。票上要求的 .ai 檔，用 Illustrator 開 PDF 後另存即可（這邊產不出原生 .ai）。</li>
+</ul>
+<div class="imgs">
+  <img src="{{SHOT:og.jpg}}" alt="OG 圖 1200x630">
+  <img src="{{SHOT:social.jpg}}" alt="社群宣傳圖 1200x1200">
+</div>
+
+<h2>八、程式碼片段</h2>
+<p class="muted">按「複製」後直接貼到對應位置。這些檔案也在 <code>out/instapage/</code> 資料夾。</p>
+{{SNIPPETS}}
+
+<h2>九、圖片：都寫在程式碼裡，不用上傳</h2>
+<ul>
+  <li>頁面上的圖（KV 插圖、場景圖、講者照片、logo）都轉成 WebP 再直接寫進程式碼（base64），<b>都不用上傳到 Instapage</b>。唯一要上傳的是社群縮圖，因為那是 Instapage 設定欄位，只收檔案。</li>
+  <li>代價是程式碼變長：<code>2_body.html</code> 約 {{SIZE:2_body.html}}。Cofit 頁的 Body 約 204KB，上線後完整沒被截斷（2026-10-05 實測）；官方文件沒寫上限。</li>
+  <li>如果貼上後存不了檔、或發布後頁面下半段不見，就是被截斷了。備案：把圖上傳到 Instapage（官方支援 WebP），程式碼改用圖片網址。</li>
+</ul>
+
+{{include:guide_notes.html}}
+
+<h2>其他備註</h2>
+<ul>
+  <li><b>字體</b>：從 Google Fonts 載入，只打包頁面用到的字（Cofit 頁三個字重約 392KB；全字集上限約 3.8MB）。LINE、Facebook 內建瀏覽器、Safari、Edge 實測都拿到 woff2。Google Fonts 被擋時改用蘋方體或微軟正黑體，版面不會亂。在 Instapage 後台改到文案（例如表單欄位名稱）時，新字會先用系統字顯示，要回 src/ 改、重產片段才會補上。</li>
+  <li><b>縮放</b>：全部尺寸用 rem。Instapage 依螢幕寬度縮放根字級，所以 Body、Footer 的段落會跟編輯器裡的報名區塊一起等比縮放、對齊同一條內容欄（本機在 1440、1024、390 寬實測）。</li>
+  <li><b>要改內容時</b>：改 <code>src/</code> 底下的檔案，再跑 <code>python3 build.py --shots</code>，片段、預覽、這份指南會一起更新。不要直接改 <code>out/</code>，下次產生會被蓋掉。</li>
+</ul>
+
+</main>
+<script>
+document.querySelectorAll('button[data-copy]').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var ta=document.getElementById(btn.dataset.copy);
+    var done=function(){ btn.textContent='已複製'; btn.classList.add('done'); setTimeout(function(){ btn.textContent='複製'; btn.classList.remove('done'); },1800); };
+    if(navigator.clipboard&&window.isSecureContext){ navigator.clipboard.writeText(ta.value).then(done,function(){ ta.select(); document.execCommand('copy'); done(); }); }
+    else { ta.select(); document.execCommand('copy'); done(); }
+  });
+});
+</script>
+</body></html>

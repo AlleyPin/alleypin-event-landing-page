@@ -1,0 +1,14 @@
+{
+  "_說明": "每一檔活動的建置設定。prefix＝class 前綴（避開 Instapage 內建 class）；css＝合併進 1_head.html 的檔案與順序；fonts＝Google Fonts css2 的 family 參數（要跟 design.css 的 --ap-font-* 一致）；extra_chars＝字型子集額外要包的字；shot_heights＝截預期畫面的視窗高度 [桌機, 手機]（手機乘 1.5 不要超過約 16000）；guide＝上稿指南裡的活動名稱等字串。",
+  "prefix": "ap",
+  "css": ["platform.css", "design.css"],
+  "fonts": "family=Noto+Sans+TC:wght@400;700",
+  "extra_chars": "照片待補",
+  "shot_heights": {"campaign": [6000, 9000], "thankyou": [2400, 3600]},
+  "guide": {
+    "EVENT_NAME": "〔待填：活動名稱，例：AlleyPin × Cofit 線上說明會〕",
+    "SOURCE_PAGE": "nova-webinar",
+    "SOURCE_TY_PAGE": "nova-webinar-thankyou",
+    "TEST_SLUG": "〔待填：測試網址代號，例：cofit-test〕"
+  }
+}
