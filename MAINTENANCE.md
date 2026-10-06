@@ -74,6 +74,13 @@
    - `git clone`：資料夾名是 `alleypin-event-landing-page`，SKILL.md 的 name 一致。
    - 綠色 Download ZIP：資料夾一定叫 `-main`，只能靠 README 的提醒擋，確認提醒還在。
 
+**2026-10-06 首版 v2026.10.06 發佈驗收**：repo 設**公開**（Hsing 決定，比照 PinFriends）。
+- Release 固定連結：匿名下載 HTTP 200，`verify_package.py` 8 項全過。
+- 匿名 `git clone`：資料夾名正確，clone 下來直接開專案、建置成功。
+- Download ZIP：資料夾是 `alleypin-event-landing-page-main`，README 的提醒有出現。
+
+給同事的連結：https://github.com/AlleyPin/alleypin-event-landing-page
+
 2026-10-06 模擬全新安裝的實測：
 - 照 QUICKSTART 解壓縮、`cp -R` 進一個沒有 `~/Desktop/AlleyPin/`、沒有其他 skill 的 HOME：
   - 環境檢查正確標出缺的 skill。
