@@ -97,3 +97,8 @@
 - 感謝頁能不能一個區塊都沒有（目前上稿指南寫「不行就留一個最小高度的白色空區塊」）。
 - 活動頁的 `twitter:description` 是 Instapage 後台哪一格產生的。
 - skill 描述的真實自動觸發測試：2026-10-06 `run_eval`／`run_loop` 都沒跑成，終端機版 `claude` 一直回 401（重新 /login 後，app 內的終端機分頁也一樣）。改做代理小測（subagent 判斷會選哪個 skill）20/20 正確，紀錄在 `alleypin-event-landing-page-workspace/description-opt/proxy_results.md`。
+
+**2026-10-30 v2026.10.30 發佈驗收**（9 週年好友推薦禮的教訓）：
+- Release 固定連結：匿名下載 HTTP 200，跟本機打的包逐位元組相同，`verify_package.py` 8 項全過。
+- 匿名 `git clone`：資料夾名正確，最新 commit 是 aebc111，pitfalls 有 C12。
+- Download ZIP：資料夾是 `alleypin-event-landing-page-main`，README 的提醒還在。
