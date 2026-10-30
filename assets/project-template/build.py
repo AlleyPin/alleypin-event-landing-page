@@ -128,7 +128,14 @@ def flow(src):
     return re.sub(rf'class="{P} ', f'class="{P} {P}-flow ', text, count=1)
 
 
-def page_snippets(page):
+def footer_name(page, pages):
+    """Footer 片段檔名：兩頁 footer 相同就共用 4_footer.html；感謝頁不同（例：活動頁的常見問題、結尾 CTA 排在表單之後，
+    只能放 Footer）就另存 ty_4_footer.html。2026-10-29 9 週年好友推薦禮就是這樣。"""
+    camp = next((p for p in pages if p["id"] != "thankyou"), page)
+    return "ty_4_footer.html" if page["id"] == "thankyou" and page["footer"] != camp["footer"] else "4_footer.html"
+
+
+def page_snippets(page, pages):
     """回傳這頁要貼的片段：{檔名: 內容}（Head 另外處理，兩頁共用）。"""
     pre = "ty_" if page["id"] == "thankyou" else ""
     out = {}
@@ -137,7 +144,7 @@ def page_snippets(page):
     for _, e in html_elements(page):
         out[e["snippet"]] = inline_images(read(e["src"]))
     if page["footer"]:
-        out["4_footer.html"] = "\n".join(flow(s) for s in page["footer"])   # 頁尾兩頁共用
+        out[footer_name(page, pages)] = "\n".join(flow(s) for s in page["footer"])
     return out
 
 
@@ -188,7 +195,7 @@ document.querySelector('form.email-form').addEventListener('submit',function(ev)
 {"".join(sections)}
 </main>
 <!-- custom FOOTER code-->
-{snips.get("4_footer.html", "")}
+{next((v for k, v in snips.items() if k.endswith("4_footer.html")), "")}
 <!-- end custom FOOTER code-->
 {script}
 </body></html>"""
@@ -233,7 +240,7 @@ def form_fields():
 def build():
     data = json.loads(read("layout.json"))
     pages = data["pages"]
-    per_page = {page["id"]: page_snippets(page) for page in pages}
+    per_page = {page["id"]: page_snippets(page, pages) for page in pages}
     bodies = {k: v for snips in per_page.values() for k, v in snips.items()}
     font_texts = list(bodies.values()) + [read("_mock_form.html")]
     head_snip = f"{fonts_link(font_texts)}\n<style>\n{css_text()}\n{element_heights_css(pages)}</style>\n"
@@ -292,7 +299,9 @@ def guide(pages, snippets):
         sections[page["id"]] = "\n".join(rows)
     where = {"1_head.html": "活動頁、感謝頁都貼：右側 Page Settings → HTML/CSS → Head",
              "2_body.html": "活動頁：右側 Page Settings → HTML/CSS → Body",
-             "4_footer.html": "活動頁、感謝頁都貼：右側 Page Settings → HTML/CSS → Footer",
+             "4_footer.html": ("活動頁：右側 Page Settings → HTML/CSS → Footer" if "ty_4_footer.html" in snippets
+                               else "活動頁、感謝頁都貼：右側 Page Settings → HTML/CSS → Footer"),
+             "ty_4_footer.html": "感謝頁：右側 Page Settings → HTML/CSS → Footer（跟活動頁不同）",
              "ty_2_body.html": "感謝頁：右側 Page Settings → HTML/CSS → Body（KV＋更多 AlleyPin 資訊）"}
     for page in pages:
         for b, e in html_elements(page):
@@ -371,8 +380,9 @@ def render_shots():
         wrap.write_text(f'<!doctype html><body style="margin:0;background:#fff"><iframe src="{page["preview"]}" '
                         f'style="display:block;width:390px;height:{mh}px;border:0"></iframe></body>', encoding="utf-8")
         png = shots / f"{page['id']}-mobile.png"
-        chrome([f"--window-size=600,{mh}", "--force-device-scale-factor=1.5", f"--screenshot={png}", wrap.resolve().as_uri()])
-        subprocess.run(["magick", str(png), "-crop", f"585x{round(mh * 1.5)}+0+0", "+repage", *trim, str(png)], check=True)
+        sf = min(1.5, 15900 / mh)   # 截圖高度上限約 16,000px：手機頁很長時（9 週年頁 10,600px）倍率自動降，整頁才截得完
+        chrome([f"--window-size=600,{mh}", f"--force-device-scale-factor={sf:.3f}", f"--screenshot={png}", wrap.resolve().as_uri()])
+        subprocess.run(["magick", str(png), "-crop", f"{round(390 * sf)}x{round(mh * sf)}+0+0", "+repage", *trim, str(png)], check=True)
         subprocess.run(["magick", str(png), "-quality", "82", str(shots / f"{page['id']}-mobile.jpg")], check=True)
         wrap.unlink()
     # 社群圖：PNG 給上架用、PDF（向量）給設計師開 Illustrator 存 .ai（產不出原生 .ai）

@@ -58,7 +58,8 @@ HTML 片段裡可以寫 `<!-- 註解 -->`：build 會拿掉，不會貼進 Insta
    - 合作案：照票的色彩方向。Cofit 案是主色 Cofit 深墨綠 #144E4F、輔色醫療藍 #1D4A82 與薄荷綠 #49AE86、背景白與極淺藍綠 #EEF6F4、點綴暖橘 #F5A252。
    - **報名色只給報名按鈕**（pitfalls C6）。淺色不要拿來當小字。
 4. **字型**：Cofit 案標題用 Chiron GoRound TC（圓角黑體，配 Cofit 的親和感）、內文 Noto Sans TC。換字型要同時改 `design.css` 的 `--ap-font-*` 與 `site.json` 的 `fonts`。
-5. **一次只做一個方向**：要給 Hsing 選方向時，做比較板（KV 用 `tools/kv_drafts.py`），不要做三個完整頁面。
+5. **字級**：模板預設就是 Hsing 2026-10-29 定的底線（pitfalls C12）：桌機內文 ≥ 17px、小字與註解 ≥ 16px、導言 19px、卡片標題 20px 起。新元件照這個寫，不要回到 15px 內文；`qa_page.py` 會抓。
+6. **一次只做一個方向**：要給 Hsing 選方向時，做比較板（KV 用 `tools/kv_drafts.py`），不要做三個完整頁面。
 
 ## 4. 寫段落 HTML（元件目錄）
 
@@ -94,10 +95,10 @@ HTML 片段裡可以寫 `<!-- 註解 -->`：build 會拿掉，不會貼進 Insta
 報名區塊是頁面上唯一要在 Instapage 編輯器建的區塊：左邊 HTML 元件（`signup-info.html`）＋右邊原生表單。
 
 - 座標單位是**編輯器 px**：桌機內容欄 960 寬、手機 400 寬，x／y 從內容欄左上角算。
-- Cofit 的值：
+- 模板預設值（Cofit 版型，2026-10-30 字級放大後重量）：
   - 桌機：區塊高 880；HTML 元件 0,0,380,880；表單 420,64,540,740。
-  - 手機：區塊高 1776；HTML 元件 0,0,400,632；表單 16,640,368,1090。
-  - 表單欄位數不同就要重量。
+  - 手機：區塊高 1952；HTML 元件 0,0,400,776；表單 16,784,368,1120。
+  - 表單欄位數不同、字級改過，就要重量。改了尺寸，交付時要提醒使用者在編輯器重新輸入（pitfalls C12）。
 - **量法**：`qa_page.py` 的 ℹ️ 那行會印出每個元件的內容高與區塊留白（已換算成編輯器 px），並給建議區塊高。內容底到區塊底，桌機留約 96、手機約 64。
 - 改了 `layout.json` 要重跑 build：元件高度會寫進 CSS（Instapage 的 HTML 元件外層沒有高度，pitfalls A5）。上稿指南第五節的表也會跟著更新。
 - Hsing 在後台改了任何座標，要同步回 `layout.json`。
@@ -121,7 +122,9 @@ Cofit 案走過的路（2026-10-02～10-05，八輪），結論：
 4. **上頁**：
    - 透明底 PNG 轉 WebP，約 1000px 寬。Cofit 定稿 1000×629、約 40KB：`magick in.png -resize 1000x -quality 82 assets/kv-art.webp`。
    - 改 `_kv-art.html` 的檔名與寬高、`design.css` 的 `aspect-ratio`、手機標題 `margin-top`、感謝頁 KV 同步（C9）。
-5. 定案前的每一輪設計稿都留在 `assets/kv-drafts/<輪次>/`（prompt、log、原圖），比較板 HTML 放 `out/`。
+5. **有地面就齊底**：插圖有台座、桌子、舞台時，地面貼齊 KV 段落下緣（段落下內距 0、圖 `align-self:end`），`<img>` 加 `data-floor`（只桌機齊就寫 `data-floor="desktop"`），`qa_page.py` 會量（pitfalls D13）。感謝頁 KV 一樣。
+6. **沿用舊活動的圖**：圖裡做死的字（金額、限額）要挖掉；挖掉後露出的背景如果原圖沒有，照 pitfalls D15 只補那一塊。
+7. 定案前的每一輪設計稿都留在 `assets/kv-drafts/<輪次>/`（prompt、log、原圖），比較板 HTML 放 `out/`。
 
 `directions.json` 格式（`kv_drafts.py` 讀）：
 
@@ -137,13 +140,14 @@ Cofit 案走過的路（2026-10-02～10-05，八輪），結論：
 3. 每張過 `tools/scene_crop.py <原圖.png> <輸出名.webp>`：裁到桌底、600 寬 WebP，並印出 `<img>` 要寫的 width／height。
 4. 線條缺口（例：櫃子沒底線）用 `tools/close_desk.py` 補。它的座標是量 Cofit 那張的，換圖要重量；另存新檔，原圖不動。
 5. CSS 已經是「框寬 92%＋貼底」，同組插圖不用個別調。
+5b. 卡片左欄的插圖用正方形滿版、不在圖上壓字（pitfalls D14）。
 6. 有新舊兩版要選時，做對照板（範例腳本 `<skill>/assets/kv-examples/scene_board.py`，路徑寫死 Cofit 的檔名，用時改 NAMES），不要只描述。
 
 ## 8. 照片、logo、OG／社群圖、SEO
 
 - **講者照片**：裁正方形轉 WebP，Cofit 用 320×320（顯示 120px）。Cofit 的 Kenneth 照片取自 `saleskit & deck & intro final/Introduction/AlleyPin_Introduction_TW_2026.08.31.pdf` 第 3 頁。沒有照片就留「照片待補」色塊。
 - **logo**：顯示高 32px，檔案用 2 倍以上的 PNG（模板裡的 AlleyPin 藍、白兩版是 72px 高）。合作方 logo 先從票上素材抽，交件時在 guide_notes 註明「正式上線前要官方 SVG／AI」。
-- **OG 1200×630**：KV 縮排（票寫「KV resize 即可」）。**社群圖 1200×1200**：KV 元素重排，可加活動類型標籤與報名膠囊，文字只能取自票上。
+- **OG 1200×630**：KV 縮排（票寫「KV resize 即可」）。插圖有地面就 `bottom:0` 貼齊圖底；移動插圖後看主標有沒有壓到角色（pitfalls D13）。**社群圖 1200×1200**：KV 元素重排，可加活動類型標籤與報名膠囊，文字只能取自票上。
   - `build.py --shots` 會輸出 PNG＋向量 PDF。原生 .ai 產不出來，請設計師用 Illustrator 開 PDF 另存。
 - **SEO**（`seo.json`）：
   - 活動頁：標題＝KV 主標｜活動名稱；描述＝副標＋這場會得到什麼＋日期時間地點＋免費報名。

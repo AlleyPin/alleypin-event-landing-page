@@ -72,7 +72,7 @@ body#landing-page form.email-form::before{
 }
 body#landing-page form.email-form .form-label-title{
   display:block; padding:0; margin:1rem 0 .375rem; color:var(--ap-text);
-  font-size:.9375rem; font-weight:400; line-height:1.5;
+  font-size:1rem; font-weight:400; line-height:1.5;   /* 2026-10-30 字級底線：欄位標籤 16px（見 design.css 檔頭） */
 }
 body#landing-page form.email-form .form-input{
   height:3rem; min-height:0; margin:0; padding:0 .875rem;
@@ -98,9 +98,9 @@ body#landing-page form.email-form .user-invalid-label{ color:#C2453C; }
 
 /* 勾選確認 */
 body#landing-page form.email-form .form-checkable-field{ margin-top:1.5rem; padding:1rem 1.125rem; border-radius:1rem; background:var(--ap-mist); }
-body#landing-page form.email-form .form-label-checkbox{ margin:0 0 .625rem; font-size:.875rem; font-weight:400; line-height:1.7; color:var(--ap-muted); }
+body#landing-page form.email-form .form-label-checkbox{ margin:0 0 .625rem; font-size:1rem; font-weight:400; line-height:1.7; color:var(--ap-muted); }
 body#landing-page form.email-form .form-block-checkbox{ position:relative; }
-body#landing-page form.email-form .form-multiple-label{ display:inline-block; position:relative; margin:0; padding-left:1.875rem; font-size:.9375rem; font-weight:700; line-height:1.5; color:var(--ap-ink); cursor:pointer; }
+body#landing-page form.email-form .form-multiple-label{ display:inline-block; position:relative; margin:0; padding-left:1.875rem; font-size:1.0625rem; font-weight:700; line-height:1.5; color:var(--ap-ink); cursor:pointer; }
 body#landing-page form.email-form .form-multiple-label::before{ position:absolute; left:0; top:.125rem; width:1.25rem; height:1.25rem; margin:0; border:1.5px solid var(--ap-field-line-hover); border-radius:.375rem; background:#FFFFFF; vertical-align:0; }
 body#landing-page form.email-form .form-checkbox-label::after{ top:.3125rem; left:.4375rem; width:.375rem; height:.6875rem; border-right:.1875rem solid; border-bottom:.1875rem solid; color:#FFFFFF; }
 body#landing-page form.email-form .form-multiple-input:checked + .form-checkbox-label::before{ background:var(--ap-ink); border-color:var(--ap-ink); }

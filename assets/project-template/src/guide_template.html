@@ -128,7 +128,7 @@ button:focus-visible{ outline:3px solid var(--ink); outline-offset:2px; }
 <ol>
   <li>複製 <code>{{SOURCE_TY_PAGE}}</code>，改成這次的網址。</li>
   <li><b>刪掉所有區塊</b>（舊 KV、舊第二段、舊頁尾都由程式碼取代）。<b>切到 Mobile 檢視再看一次</b>：來源頁可能有只在手機顯示的區塊，桌機檢視看不到（2026-10-06 cofit 感謝頁就留了一個 Nova 回饋活動的區塊）。<span class="muted">Instapage 若不讓頁面一個區塊都沒有，就留一個空區塊、高度設到最小、背景白色（未實測）。</span></li>
-  <li>右側 Page Settings → HTML/CSS：Head 貼 <code>1_head.html</code>、Body 貼 <code>ty_2_body.html</code>、Footer 貼 <code>4_footer.html</code>（頁尾跟活動頁同一段）。</li>
+  <li>右側 Page Settings → HTML/CSS：Head 貼 <code>1_head.html</code>、Body 貼 <code>ty_2_body.html</code>、Footer 貼 <code>4_footer.html</code>（頁尾跟活動頁同一段；<code>out/instapage/</code> 裡有 <code>ty_4_footer.html</code> 的話，代表這檔兩頁 Footer 不同，感謝頁改貼它）。</li>
   <li>頁面標題、描述、社群縮圖照第七節換掉。</li>
   <li>發布後，回活動頁把表單的送出後導向設到這頁。</li>
 </ol>

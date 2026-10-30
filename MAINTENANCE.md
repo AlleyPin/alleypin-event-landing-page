@@ -1,5 +1,5 @@
 ---
-最後更新: 2026-10-06
+最後更新: 2026-10-30
 用途: 給 Hsing 的維護說明（同事看 QUICKSTART.md）
 ---
 
@@ -10,6 +10,7 @@
 - **流程與坑**：2026-10-02～10-06 Cofit 線上說明會頁（events.alleypin.com/cofit）。原始專案在 `~/Desktop/AlleyPin/landing page/2026-11-cofit-webinar/`，只在這台電腦上。
 - **模板** `assets/project-template/`：從 Cofit 專案抽出來的，前綴 `cf-` 改 `ap-`，`shared.css` 拆成 `platform.css`（平台規矩）＋`design.css`（每檔重訂）。
 - **段落庫** `assets/section-library/`：Cofit 的五個段落改成 `ap-` 寫法，附圖。
+- **第二檔：9 週年好友推薦禮**（events.alleypin.com/9th-anniversary-ai-agent，2026-10-29～30，四輪修改）。原始專案在 `~/Desktop/AlleyPin/landing page/2026-11-9th-referral/`。帶回來的：字級底線（pitfalls C12）、有地面的圖齊底（D13）、兩頁 Footer 可以不同（B14）、手機長頁截圖、`qa_page.py` 的小字與齊底檢查、`check_live.py` 頁面下架時不當掉。
 - **KV 範例** `assets/kv-examples/`：幾何參考圖產生器、線頭驗收腳本、提示詞範本（座標都是 Cofit 那張構圖的）。
 
 ## 文案規則：vault 是源頭，copy-rules.md 是萃取版
@@ -32,14 +33,16 @@
    ```
    跑 `python3 build.py`，五段 `out/instapage/*.html` 要跟 Cofit 專案現有的逐位元組相同（2026-10-06 通過）。
 
-2. **QA 鑑別力**：`scripts/qa_page.py` 用 Cofit 現行版要 0 個 ❌。
+2. **QA 鑑別力**：`scripts/qa_page.py` 用 Cofit 現行版，除了「小字」之外要 0 個 ❌（Cofit 是 10-29 字級底線之前做的，內文 15px，小字 ❌ 是預期中的）。9 週年專案的複本（感謝頁 KV 圖加 `data-floor="desktop"`）要 0 個 ❌。
    - 加 `--prefix cf --cta-var --cf-orange`。
    - 新增任何檢查，都要做一個「應該不過」的版本確認抓得到。
    - 2026-10-06 驗過：平滑捲動、pretty、subgrid、插圖浮空、孤字、時間橘色膠囊、錨點、佔位字、溢出、手機貼邊、表單標籤孤字。
+   - 2026-10-30 驗過：小字（9 週年放大前的版本 13 類 ❌、放大後 0）、齊底（感謝頁 KV 修正前 ❌ 48–64px、修正後 0；連跑三次穩定）。
 
 3. **新專案冒煙測試**：`new_project.py` 開一個到暫存資料夾 → `build.py --shots` → `qa_page.py`。只應該剩佔位字相關的 ❌。
 
 4. **上線檢查**：`scripts/check_live.py` 對任何一個已上線的活動頁跑一次，確認沒有誤報。
+   - Cofit 頁 2026-10-30 已下架（404），改用 9 週年頁（`--project ~/Desktop/AlleyPin/landing page/2026-11-9th-referral`）。
    - 2026-10-06 修過一次誤報：模板註解裡寫了「不要加 text-wrap:pretty」被當成違規。
 
 ## 踩到新坑時

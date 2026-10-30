@@ -13,6 +13,8 @@
   手機貼邊   390 寬時文字或卡片離螢幕邊緣 < 8px
   並排對齊   同一列的卡片，標題、說明的起始高度要在同一條線（subgrid）
   插圖浮空   場景圖底部的透明留白＋圖框底距 > 3px＝浮在空中（scene_crop.py 裁到桌底）；同組插圖寬度比例要一樣
+  齊底       img[data-floor]（台座、桌子、舞台）的地面要貼齊段落下緣（± 3px）
+  小字       敘述文字換算成編輯器 px：桌機 < 16 ❌、手機 < 15 ⚠️（2026-10-29「這些敘述都太小」）
   報名色     CTA 色（--ap-cta）只能出現在連結／按鈕上（時間膠囊撞造型那次）
   錨點       href="#…" 的目標都存在
   內容欄     Body／Footer 段落與報名區塊左右對齊同一條內容欄
@@ -73,6 +75,8 @@ function lines(el){
   return Object.keys(rows).map(Number).sort(function(a,b){return a-b;}).map(function(k){return rows[k];});
 }
 function run(){
+  // 先關掉進場動畫：KV 插圖往上浮的那 0.9 秒裡量，位置會差十幾 px（齊底檢查實測時抓到）
+  var st=document.createElement('style'); st.textContent='*,*::before,*::after{animation:none!important;transition:none!important}'; document.head.appendChild(st); void document.body.offsetHeight;
   var R={width:innerWidth, root_px:parseFloat(getComputedStyle(document.documentElement).fontSize), fails:[], warns:[], info:{}};
   var F=function(k,m){R.fails.push([k,m]);}, W=function(k,m){R.warns.push([k,m]);};
   var all=[].slice.call(document.querySelectorAll('.ap *, form.email-form *, form.email-form, .ap'));
@@ -160,6 +164,19 @@ function run(){
       W('插圖比例','同一組插圖寬度比例不一致：'+g.map(function(a){return a[0]+' '+(a[1]*100).toFixed(1)+'%';}).join('；'));
   });
 
+  // 5b) 齊底：有地面的圖（台座、桌子、舞台）加 data-floor，圖內容的最底部要貼齊段落下緣（或 data-floor-to 指定的框）。
+  // data-floor="desktop"／"mobile" 只在那個寬度量（例：手機版圖排在字上方，台座本來就不在段落底）。2026-10-29 感謝頁 KV 台座浮在段落底上方被抓
+  [].slice.call(document.querySelectorAll('.ap img[data-floor]')).forEach(function(img){
+    var only=img.getAttribute('data-floor'); if((only==='desktop'&&innerWidth<768)||(only==='mobile'&&innerWidth>=768)||hidden(img)||!visible(img)) return;
+    var box=img.closest('[data-floor-to]')||img.closest('.ap-flow')||img.closest('section')||document.body;
+    var c=document.createElement('canvas'); c.width=img.naturalWidth; c.height=img.naturalHeight; var last=-1;
+    try{ var x=c.getContext('2d'); x.drawImage(img,0,0); var d=x.getImageData(0,0,c.width,c.height).data;
+      for(var y=c.height-1;y>=0&&last<0;y--){ for(var xx=0;xx<c.width;xx++){ if(d[(y*c.width+xx)*4+3]>20){ last=y; break; } } }
+    }catch(e){ W('齊底', desc(img)+' 讀不到像素（不是內嵌圖？）'); return; }
+    var ir=img.getBoundingClientRect(), bottom=ir.top+(last+1)/c.height*ir.height, gap=box.getBoundingClientRect().bottom-bottom;
+    if(Math.abs(gap)>3) F('齊底', desc(img)+' 圖的地面離'+desc(box)+'下緣 '+Math.round(gap)+'px（段落下內距設 0、圖 align-self:end 或 bottom:0）');
+  });
+
   // 6) 報名色只給按鈕
   var cta=getComputedStyle(document.documentElement).getPropertyValue('--ap-cta').trim();
   if(cta){ var ctaRgb=rgb(cta);
@@ -202,6 +219,20 @@ function run(){
     blocks.push(info);
   });
   R.info.blocks=blocks;
+
+  // 9b) 小字：敘述文字（直接含 8 個字以上的元素）換算成編輯器 px，桌機 < 16 ❌、手機 < 15 ⚠️。
+  // 2026-10-29 Hsing「這些敘述都太小」：內文 15px、小字 14px 被抓，整站放大約 1.13 倍。標題、按鈕、膠囊與標籤（class 含 pill／tag／eyebrow）、版權列（copy）、data-qa-small 不算
+  var small={};
+  all.concat([].slice.call(document.querySelectorAll('form.email-form .form-label-checkbox, form.email-form .form-multiple-label'))).forEach(function(el){
+    if(hidden(el)||!visible(el)||el.closest('[aria-hidden="true"],[class*="copy"],[class*="pill"],[class*="tag"],[class*="eyebrow"],[data-qa-small],h1,h2,h3,h4,h5,h6,[class*="title"],a.ap-btn,button')) return;
+    var t=''; el.childNodes.forEach(function(n){ if(n.nodeType===3) t+=n.textContent; });
+    if(t.replace(/\s/g,'').length<8) return;
+    var px=parseFloat(getComputedStyle(el).fontSize)/R.root_px*16, lim=innerWidth>=768?16:15;
+    if(px<lim-0.1){ var key=el.tagName.toLowerCase()+'.'+((el.getAttribute('class')||'').split(/\s+/)[0]||'')+' '+(Math.round(px*10)/10)+'px';
+      (small[key]=small[key]||[]).push(el); }
+  });
+  Object.keys(small).forEach(function(k){ var m=k+' ×'+small[k].length+'（例：'+desc(small[k][0])+'）→ 桌機敘述 ≥ 1.0625rem、小字 ≥ 1rem';
+    innerWidth>=768?F('小字',m):W('小字（手機）',m); });
 
   // 10) 其他
   var txt=document.body.innerText;

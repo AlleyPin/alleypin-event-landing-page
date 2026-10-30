@@ -17,7 +17,7 @@
   區塊        編輯器區塊數量照 layout.json、沒有複製來源頁留下的文字（只在手機顯示的舊區塊）
   元件位置    報名須知 HTML 元件與表單的桌機／手機位置尺寸照 layout.json
 """
-import base64, html, json, re, struct, sys, urllib.request
+import base64, html, json, re, struct, sys, urllib.error, urllib.request
 from pathlib import Path
 
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129 Safari/537.36"}
@@ -29,6 +29,14 @@ def get(url, binary=False):
     with urllib.request.urlopen(req, timeout=30) as r:
         data = r.read()
         return r.status, r.geturl(), (data if binary else data.decode("utf-8", "replace"))
+
+
+def get_page(url):
+    """抓活動頁或感謝頁；404／410 這類回 (狀態碼, None, None)，不要整支腳本當掉（2026-10-30 Cofit 頁下架後跑出一整串 traceback）。"""
+    try:
+        return get(url)
+    except urllib.error.HTTPError as e:
+        return e.code, url, None
 
 
 def norm(s):
@@ -327,7 +335,10 @@ def main():
     snip = lambda n: (proj / "out" / "instapage" / n).read_text(encoding="utf-8") if proj and (proj / "out" / "instapage" / n).exists() else None
 
     print(f"== 活動頁 {url}")
-    st, final, page = get(url)
+    st, final, page = get_page(url)
+    if page is None:
+        fail(f"HTTP {st}：頁面沒有發布、已下架，或網址打錯")
+        sys.exit(1)
     (ok if st == 200 else fail)(f"HTTP {st}")
     check_seo(page, seo["campaign"] if seo else None)
     check_code(page, {n: s for n in ("1_head.html", "2_body.html", "3_signup-block.html", "4_footer.html") if (s := snip(n))})
@@ -342,12 +353,15 @@ def main():
 
     if ty:
         print(f"\n== 感謝頁 {ty}")
-        st, _, tpage = get(ty)
-        (ok if st == 200 else fail)(f"HTTP {st}")
-        check_seo(tpage, seo["thankyou"] if seo else None)
-        check_code(tpage, {n: s for n in ("1_head.html", "ty_2_body.html", "4_footer.html") if (s := snip(n))})
-        if proj:
-            check_blocks(tpage, n.get("thankyou", 0), [])
+        st, _, tpage = get_page(ty)
+        (ok if st == 200 else fail)(f"HTTP {st}" + ("" if tpage is not None else "：頁面沒有發布、已下架，或網址打錯"))
+        if tpage is not None:
+            check_seo(tpage, seo["thankyou"] if seo else None)
+            # 感謝頁 Footer 跟活動頁不同時 build 會另存 ty_4_footer.html（2026-10-30 9 週年頁：拿 4_footer 比，報了一次假的「線上是舊版」）
+            ty_foot = "ty_4_footer.html" if snip("ty_4_footer.html") else "4_footer.html"
+            check_code(tpage, {n: s for n in ("1_head.html", "ty_2_body.html", ty_foot) if (s := snip(n))})
+            if proj:
+                check_blocks(tpage, n.get("thankyou", 0), [])
 
     print(f"\n合計：❌ {len(FAILS)}　⚠️ {len(WARNS)}")
     sys.exit(1 if FAILS else 0)

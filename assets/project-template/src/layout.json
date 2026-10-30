@@ -14,11 +14,11 @@
           "name": "報名區塊（唯一要在編輯器建的區塊）",
           "bg": "#FFFFFF",
           "desktop_h": 880,
-          "mobile_h": 1776,
+          "mobile_h": 1952,
           "elements": [
             {"id": "signup-html", "type": "html", "src": "signup-info.html", "snippet": "3_signup-block.html", "root": "ap-info",
-             "name": "HTML 元件（報名須知）", "desktop": [0, 0, 380, 880], "mobile": [0, 0, 400, 632]},
-            {"id": "form", "type": "form", "name": "原生表單元件", "desktop": [420, 64, 540, 740], "mobile": [16, 640, 368, 1090]}
+             "name": "HTML 元件（報名須知）", "desktop": [0, 0, 380, 880], "mobile": [0, 0, 400, 776]},
+            {"id": "form", "type": "form", "name": "原生表單元件", "desktop": [420, 64, 540, 740], "mobile": [16, 784, 368, 1120]}
           ]
         }
       ]
